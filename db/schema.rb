@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 2019_08_25_055756) do
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
-    t.string "nickname", null: false
+    t.string "nickname", limit: 10, null: false
     t.string "user_image", default: "default.png"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 2019_08_25_055756) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["nickname"], name: "index_users_on_nickname", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
