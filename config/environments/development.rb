@@ -61,4 +61,13 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
   config.hosts << "bbd5ad31f8ca4532ad52863896ea56ad.vfs.cloud9.ap-southeast-1.amazonaws.com"
   config.action_mailer.default_url_options = { host: 'https://bbd5ad31f8ca4532ad52863896ea56ad.vfs.cloud9.ap-southeast-1.amazonaws.com/', port: 3000 }
+  config.action_mailer.smtp_settings = {
+    :enable_starttls_auto => true,
+    :address => "smtp.gmail.com",
+    :port => 587,
+    :domain => 'smtp.gmail.com',
+    :user_name => "yukinari.rikimaru@gmail.com", #先ほど作成した送信用gmailアドレス
+    :password => "vvgxcfxjxpjpohwb", #2段階認証したアカウントで発行したアプリパスワード
+    :authentication => 'login'
+  }
 end
