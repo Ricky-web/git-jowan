@@ -10,6 +10,7 @@
   </head>
 
   <body>
+    <% if user_signed_in? %>
     <header>
       <h2 class="app-name"><%= link_to 'Jowan', root_path, method: :get %></h2>
         <label><input type="checkbox" id="user-image" name="<%= current_user.nickname %>-image">
@@ -25,6 +26,7 @@
           </ul>
         </label>
     </header>
+    <% end %>
     <article>
       <p class="alert"><%= alert %></p>
       <%= yield %>
