@@ -7,4 +7,6 @@ class User < ApplicationRecord
   validates :nickname,
   presence: true, uniqueness: true, length: {maximum: 10}
   
+  has_one_attached :image
+  
 end
