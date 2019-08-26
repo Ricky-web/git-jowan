@@ -4,6 +4,14 @@
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
+    <% if current_user.image.attached? %>
+      <%= image_tag current_user.image %>
+    <% else %>
+      <%= image_tag 'default.png' %>
+    <% end %>
+  </div>
+
+  <div class="field">
     <%= f.label :nickname %>
     <%= f.text_field :nickname, autofocus: true, autocomplete: "nickname", placeholder: "Nickname", maxlength: 10 %>
   </div>
