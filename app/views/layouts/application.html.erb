@@ -10,7 +10,24 @@
   </head>
 
   <body>
-    <p class="alert"><%= alert %></p>
-    <%= yield %>
+    <header>
+      <h2 class="app-name"><%= link_to 'Jowan', root_path, method: :get %></h2>
+        <label><input type="checkbox" id="user-image" name="<%= current_user.nickname %>-image">
+          <% if current_user.image.attached? %>
+            <%= image_tag current_user.image, class: "user-image" %>
+          <% else %>
+            <%= image_tag "default.png", class: "user-image" %>
+          <% end %>
+          <ul class="user-btn">
+            <li><%= link_to 'POST', new_post_path, method: :get %></li>
+            <li><%= link_to 'MyPage', '/', method: :get %></li>
+            <li><%= link_to 'LogOut', destroy_user_session_path, method: :delete %></li>
+          </ul>
+        </label>
+    </header>
+    <article>
+      <p class="alert"><%= alert %></p>
+      <%= yield %>
+    </article>
   </body>
 </html>

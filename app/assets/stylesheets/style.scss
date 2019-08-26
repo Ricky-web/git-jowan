@@ -1,0 +1,106 @@
+html, body, ul {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+header {
+  background: #888888;
+  height: 100px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 9998;
+  
+  .app-name {
+    width: 165px;
+    height: 100px;
+    margin: 0 auto;
+    
+    a {
+      line-height: 100px;
+    }
+  }
+  
+  .user-image {
+    width: 80px;
+    height: 80px;
+    border: solid 4px white;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    cursor: hand;
+    position: fixed;
+    top: 6px;
+    right: 66px;
+    transition: transform 0.5s ease 0s, border 0.3s ease 0s;
+    z-index: 9999;
+    &:hover {
+      border: solid 4px #6495ED;
+    }
+  }
+    
+  .user-btn {
+    height: 88px;
+    width: 58px;
+    padding-right: 30px;
+    border-radius: 44px;
+    background: white;
+    display: block;
+    opacity: 1;
+    text-align: right;
+    position: fixed;
+    top: 6px;
+    right: 66px;
+    transition: width 0.5s ease 0s;
+    overflow: hidden;
+    
+    li {
+      display: none;
+      line-height: 88px;
+    }
+  }
+  // ------------------------------------
+  #user-image:checked {
+    ~.user-image {
+    transform: translateX(-250px);
+    }
+    
+    ~.user-btn {
+      width: 300px;
+      padding-right: 30px;
+      
+      li {
+        display: inline-block;
+        padding: 0 5px;
+        
+        a {
+          // display: block;
+          padding : 4px;
+          border: solid 2px #C2EEFF;
+          border-radius: 4px;
+          background: #C2EEFF;
+          transition: background 0.5s ease 0s;
+          &:hover {
+          background: #6495ED;
+          color: white;
+          }
+        }
+      }
+    }
+  }
+  // ------------------------------------
+  #user-image {
+    display: none;
+  }
+}
+
+article {
+    width: 1000px;
+    height: 100%;
+    margin: 0 auto;
+    padding-top: 100px;
+}
