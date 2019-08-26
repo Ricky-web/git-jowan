@@ -8,5 +8,5 @@ class User < ApplicationRecord
   presence: true, uniqueness: true, length: {maximum: 10}
   
   has_one_attached :image
-  
+  has_many :posts
 end
