@@ -17,6 +17,11 @@
   </div>
   
   <div class="field">
+    <%= form.label :currency_pair %>
+    <%= form.select :currency_pair, ["USDJPY", "GBPJPY", "EURJPY", "AUDJPY", "NZDJPY", "CADJPY", "CHFJPY", "HKDJPY", "ZARJPY", "GBPUSD", "EURUSD", "AUDUSD", "NZDUSD"], :prompt => "Select" %>
+  </div>
+  
+  <div class="field">
     <%= form.label :content %>
     <%= form.rich_text_area :content %>
   </div>
