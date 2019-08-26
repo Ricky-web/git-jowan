@@ -9,4 +9,6 @@ class User < ApplicationRecord
   
   has_one_attached :image
   has_many :posts
+  has_many :likes
+  has_many :views
 end
