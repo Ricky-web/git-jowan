@@ -15,4 +15,8 @@ class User < ApplicationRecord
   def already_watched?(post)
     self.views.exists?(post_id: post.id)
   end
+  
+  def already_liked?(post)
+    self.likes.exists?(post_id: post.id)
+  end
 end
