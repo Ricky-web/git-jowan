@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   
   root to: "posts#index"
+  get '/users/:id' => 'users#show'
   
   Rails.application.routes.draw do
     devise_for :users, controllers: {
