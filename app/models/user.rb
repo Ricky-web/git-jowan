@@ -11,4 +11,8 @@ class User < ApplicationRecord
   has_many :posts
   has_many :likes
   has_many :views
+  
+  def already_watched?(post)
+    self.views.exists?(post_id: post.id)
+  end
 end
