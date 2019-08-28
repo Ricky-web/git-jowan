@@ -1,50 +1,38 @@
 <p id="notice"><%= notice %></p>
 
 <% @posts.each do |post| %>
-  <div class="container">
-    <div class="currency-pair">
-      <h3><%= post.currency_pair %></h3>
-      <% unless post.currency_pair == "Others" %>
-        <%= image_tag "#{post.currency_pair[0, 3]}.png", class: "currency" %>
-        <%= image_tag "#{post.currency_pair[3, 6]}.png", class: "margin-currency" %>
-      <% end %>
-    </div>
-    <div class="post-title">
-      <h2>
-        <span style="border-bottom: solid 1px gray;">
-          <% if current_user.already_watched?(post) %>
-            <%= link_to "#{post.title}", post_path(post.id), method: :get %>
-          <% else %>
-            <%= link_to "#{post.title}", post_views_path(post.id), method: :post %>
-          <% end %>
-        </span>
-      </h2>
-      <small>
-        📰<time datetime="<%= post.updated_at %>">Updated at <%= post.updated_at %></time> by <%= link_to "#{post.user.nickname}", user_path(post.user.id), method: :get, style: "border-bottom: solid 0.5px black;" %>
-      </small>
-      <div class="rate-box">
-        <ul>
-          <% if current_user.already_liked?(post) %>
-            <li><small><%= link_to '👍', "/posts/#{post.id}/likes/#{post.likes.find_by(user_id: current_user.id).id}", method: :delete %>: <span style="border-bottom: solid 0.5px black;"><%= post.likes.count %> (You +1)</span></small></li>
-          <% else %>
-            <li><small><%= link_to '👍', post_likes_path(post.id), method: :post %>: <span style="border-bottom: solid 0.5px black;"><%= post.likes.count %></span></small></li>
-          <% end %>
-          <li><small><%= link_to '💬', post_path(post.id), method: :get %>: <span style="border-bottom: solid 0.5px;"><%= post.comments.count %></span></small></li>
-          <% if current_user.already_watched?(post) %>
-            <li><small>👁: <span style="border-bottom: solid 0.5px black;"><%= post.views.count %> (You +1)</span></small></li>
-          <% else %>
-            <li><small>👁: <span style="border-bottom: solid 0.5px black;"><%= post.views.count %></span></small></li>
-          <% end %>
+    <div class="article-container">
+        <div class="currency-pair">
+            <h3><%= post.currency_pair %></h3>
+            <%= image_tag "#{post.currency_pair[0, 3]}.png", class: "currency", alt: "#{post.currency_pair[0, 3]}" %>
+            <%= image_tag "#{post.currency_pair[3, 6]}.png", class: "margin-currency", alt: "#{post.currency_pair[3, 6]}" %>
+        </div>
+        <div class="article-title">
+            <% if current_user.already_watched?(post) %>
+                <h2><%= link_to "#{post.title}", post_path(post), method: :get %></h2>
+            <% else %>
+                <h2><%= link_to "#{post.title}", "/posts/#{post.id}/views", method: :post %></h2>
+            <% end %>
+            <time datetime="<%= DateTime.parse(post.updated_at.to_s) %>"><span>🖊</span><%= post.updated_at.strftime("%a, %d %b %Y %X %Z") %></time>
+        </div>
+        <ul class="evaluation-box">
+            <% if current_user.already_liked?(post) %>
+                <li><%= link_to '👍', post_like_path(post), method: :delete %>: <%= post.likes.count %></li>
+                <li><%= link_to '💬', post_path(post), method: :get %>: <%= post.comments.count %></li>
+                <li>👁: <%= post.views.count %></li>
+            <% else %>
+                <li><%= link_to '👍', post_like_path(post), method: :post %>: <%= post.likes.count %></li>
+                <li><%= link_to '💬', post_path(post), method: :get %>: <%= post.comments.count %></li>
+                <li>👁: <%= post.views.count %></li>
+            <% end %>
         </ul>
-      </div>
+        <div class="poster-info">
+            <% if post.user.image.attached? %>
+                <%= image_tag post.user.image, alt: "#{post.user.nickname}", class: "poster-image" %>
+            <% else %>
+                <%= image_tag "default.png", alt: "#{post.user.nickname}", class: "poster-image" %>
+            <% end %>
+            <small>Poster: <%= link_to "#{post.user.nickname}", user_path(post.user.id), method: :get %></small>
+        </div>
     </div>
-    <div class="post-poster">
-      <% if post.user.image.attached? %>
-        <%= image_tag post.user.image, class: "poster-image" %><br>
-      <% else %>
-        <%= image_tag "default.png", class: "poster-image" %>
-      <% end %>
-      <small class="poster-name">Poster: <%= link_to "#{post.user.nickname}", user_path(post.user.id), method: :get, style: "border-bottom: solid 1px black;" %><span>↗</span></small>
-    </div>
-  </div>
 <% end %>

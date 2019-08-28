@@ -99,8 +99,95 @@ header {
 }
 
 article {
-    width: 1000px;
-    height: 100%;
-    margin: 0 auto;
-    padding-top: 100px;
+  width: 1000px;
+  height: 100%;
+  margin: 0 auto;
+  padding-top: 100px;
+  
+  .container {
+    background: #C2EEFF;
+    padding: 25px 0;
+    margin: 10px;
+    box-shadow: 5px 10px 20px rgba(0,0,0,0.25);
+    border-radius: 6px;
+    position: relative;
+    animation-name: SlideDown;
+    animation-duration: 2.5s;
+    animation-iteration-count: 1;
+    transition: background 0.5s ease 0s, transform 0.5s ease 0s;
+    &:hover {
+      background: #6495ED;
+      transform: translateX(-10px);
+    }
+    
+    .article-title {
+      width: 760px;
+      padding-left: 50px;
+      text-align: left;
+      overflow: hidden;
+      
+        h2 {
+          text-align: left;
+        }
+      }
+      
+      .evaluation-box li {
+        display: inline-block;
+      }
+    }
+    
+    .currency-pair {
+      float: left;
+      margin-left: 30px;
+      
+      .currency {
+        width: 80px;
+        height: 50px;
+        background-size: cover;
+        box-shadow: 2px 2px 4px #6495ED
+      }
+      
+      .margin-currency {
+        width: 45px;
+        height: 30px;
+        background-size: cover;
+        position: absolute;
+        top: 75px;
+        left: 85px;
+        box-shadow: 2px 2px 4px #6495ED
+        }
+      
+      h3 {
+        text-align: center;
+      }
+    }
+    
+    .poster-info {
+      width: 104px;
+      height: 93px;
+      position: absolute;
+      right: 30px;
+      top: 20px;
+      text-align: center;
+      
+      .poster-image {
+        width: 70px;
+        height: 70px;
+        border: solid 2px white;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+  }
+}
+
+@-webkit-keyframes SlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-300px);
+  }
+  
+  100% {
+    opacity: 1;
+  }
 }
