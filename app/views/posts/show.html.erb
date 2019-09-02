@@ -50,8 +50,12 @@
     <%= @post.content %>
   <div class="separator-line"></div>
   <div class="comments-area">
-    <% @post.comments.each do |comment| %>
-      <%= comment %>
+    <% if @post.comments %>
+      <% @post.comments.each do |comment| %>
+        <div class="come">
+          <%= simple_format(comment.text) %>
+        </div>
+      <% end %>
     <% end %>
   </div>
   <div class="comment-form">
