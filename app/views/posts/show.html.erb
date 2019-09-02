@@ -55,7 +55,7 @@
     <% end %>
   </div>
   <div class="comment-form">
-    <%= form_tag('/', method: :post) do %>
+    <%= form_tag("/posts/#{@post.id}/comments", method: :post) do %>
     <% if current_user.image.attached? %>
       <%= image_tag current_user.image %>
     <% else %>
