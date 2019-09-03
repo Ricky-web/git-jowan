@@ -54,8 +54,8 @@
     <%= @post.content %>
   <div class="separator-line"></div>
   <div class="comments-area">
-    <% if @post.comments %>
-      <% @post.comments.each do |comment| %>
+    <% if @comments %>
+      <% @comments.each do |comment| %>
         <div class="user-come-wrap">
           <% if comment.user.image.attached? %>
             <%= image_tag comment.user.image %>
