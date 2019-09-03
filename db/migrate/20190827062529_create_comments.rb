@@ -6,5 +6,6 @@ class CreateComments < ActiveRecord::Migration[6.0]
       t.text :text, null: false
       t.timestamps
     end
+    add_index :comments, [:user_id, :post_id], unique: true
   end
 end
