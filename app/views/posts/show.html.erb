@@ -78,13 +78,18 @@
   <div class="separator-line"></div>
   <div class="comment-form">
     <%= form_tag("/posts/#{@post.id}/comments", method: :post) do %>
-    <% if current_user.image.attached? %>
-      <%= image_tag current_user.image %>
-    <% else %>
-      <%= image_tag "default.png" %>
-    <% end %>
-    <%= text_area_tag :text %>
-    <%= submit_tag 'Create Comment' %>
+      <% if current_user.image.attached? %>
+        <%= image_tag current_user.image %>
+      <% else %>
+        <%= image_tag "default.png" %>
+      <% end %>
+      <% if @post.comments.exists?(user_id: current_user.id) %>
+        <textarea name="text" id="text" disabled="desabled" style="cursor: not-allowed;" placeholder="An article can only have one you comment.&#13;&#10;If you delete an already posted comment, you can post it again."></textarea>
+        <input type="submit" value="You already posted a comment." disabled="disabled" style="background-color: #C2EEFF; color: graytext; cursor: not-allowed;" />
+      <% else %>
+        <%= text_area_tag :text %>
+        <%= submit_tag 'Create Comment' %>
+      <% end %>
     <% end %>
   </div>
   <a name="comment"></a>
