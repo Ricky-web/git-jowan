@@ -507,6 +507,11 @@ article {
       }
     }
   }
+  
+  a.back:hover {
+    color: gray;
+    border-bottom: solid 0.5px black;
+  }
 }
 
 .form-area {
