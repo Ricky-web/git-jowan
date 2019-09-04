@@ -5,4 +5,7 @@ class Comment < ApplicationRecord
   [:user_id, :post_id, :text].each do |v|
     validates v, presence: true
   end
+  
+  validates :user_id, :uniqueness => {:scope => :post_id}
+  
 end

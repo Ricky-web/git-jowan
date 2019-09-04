@@ -25,7 +25,11 @@
         <% end %>
     <% else %>
         <li><%= link_to "👍#{@post.likes.count}", "/posts/#{@post.id}/likes", method: :post %></li>
-        <li><%= link_to "💬#{@post.comments.count}", '#comment', method: :get %></li>
+        <% if @post.comments.exists?(user_id: current_user.id) %>
+          <li style="background: #6495ED;"><%= link_to "💬#{@post.comments.count}", '#comment', method: :get %></li>
+        <% else %>
+          <li><%= link_to "💬#{@post.comments.count}", '#coment', method: :get %></li>
+        <% end %>
         <% if current_user.already_watched?(@post) %>  
           <li style="background: #6495ED;">👁<%= @post.views.count %></li>
         <% else %>
@@ -50,21 +54,44 @@
     <%= @post.content %>
   <div class="separator-line"></div>
   <div class="comments-area">
-    <% @post.comments.each do |comment| %>
-      <%= comment %>
+    <% if @comments %>
+      <% @comments.each do |comment| %>
+        <div class="user-come-wrap">
+          <% if comment.user.image.attached? %>
+            <%= image_tag comment.user.image %>
+          <% else %>
+            <%= image_tag 'default.png' %>
+          <% end %>
+          <div class="come">
+            <%= simple_format(comment.text) %>
+            <% if comment.user.id == current_user.id %>
+              <div class="delete-btn">
+                <%= link_to '✖', "/posts/#{comment.post.id}/comments/#{comment.id}", method: :delete, data: {confirm: "Are you delete?"}%>
+              </div>
+            <% end %>
+            <time datetime="<%= DateTime.parse(comment.created_at.to_s) %>">🖊<%= comment.created_at.strftime("%a, %d %b %Y %X %Z") %></time>
+          </div>
+        </div>
+      <% end %>
     <% end %>
   </div>
+  <div class="separator-line"></div>
   <div class="comment-form">
-    <%= form_tag('/', method: :post) do %>
-    <% if current_user.image.attached? %>
-      <%= image_tag current_user.image %>
-    <% else %>
-      <%= image_tag "default.png" %>
-    <% end %>
-    <%= text_area_tag :text %>
-    <%= submit_tag 'Create Comment' %>
+    <%= form_tag("/posts/#{@post.id}/comments", method: :post) do %>
+      <% if current_user.image.attached? %>
+        <%= image_tag current_user.image %>
+      <% else %>
+        <%= image_tag "default.png" %>
+      <% end %>
+      <% if @post.comments.exists?(user_id: current_user.id) %>
+        <textarea name="text" id="text" disabled="desabled" style="cursor: not-allowed;" placeholder="An article can only have one you comment.&#13;&#10;If you delete an already posted comment, you can post it again."></textarea>
+        <input type="submit" value="You already posted a comment." disabled="disabled" style="background-color: #C2EEFF; color: graytext; cursor: not-allowed;" />
+      <% else %>
+        <%= text_area_tag :text %>
+        <%= submit_tag 'Create Comment' %>
+      <% end %>
     <% end %>
   </div>
   <a name="comment"></a>
-  <%= link_to '<<Back', posts_path %>
+  <%= link_to '<<Back', posts_path, class: "back" %>
 </article>
