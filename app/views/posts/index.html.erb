@@ -1,5 +1,6 @@
 <article>
   <p id="notice"><%= notice %></p>
+  <%= paginate @posts %>
   <% @posts.each do |post| %>
     <div class="article-container">
         <% if current_user.already_watched?(post) %>
@@ -57,4 +58,5 @@
         </div>
     </div>
   <% end %>
+  <%= paginate @posts %>
 </article>
