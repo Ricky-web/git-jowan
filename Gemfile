@@ -55,3 +55,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'image_processing', '~> 1.9.3'
 gem 'devise'
 gem 'pry-rails'
+gem 'kaminari'
