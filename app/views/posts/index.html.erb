@@ -1,62 +1,87 @@
-<article>
-  <p id="notice"><%= notice %></p>
-  <%= paginate @posts %>
-  <% @posts.each do |post| %>
-    <div class="article-container">
-        <% if current_user.already_watched?(post) %>
-            <a class="article-link" href="/posts/<%= post.id %>"></a>
-        <% else %>
-            <%= link_to "", post_views_path(post), method: :post, class: "article-link" %>
-        <% end %>
-        <div class="currency-pair">
-            <h3><%= post.currency_pair %></h3>
-            <%= image_tag "#{post.currency_pair[0, 3]}.png", class: "currency", alt: "#{post.currency_pair[0, 3]}" %>
-            <%= image_tag "#{post.currency_pair[3, 6]}.png", class: "margin-currency", alt: "#{post.currency_pair[3, 6]}" %>
-        </div>
-        <div class="article-title">
+<div class="wrap">
+    <div class="left-side"></div>
+    <article>
+      <p id="notice"><%= notice %></p>
+      <%= paginate @posts %>
+      <% @posts.each do |post| %>
+        <div class="article-container">
             <% if current_user.already_watched?(post) %>
-                <h2><span style="border-bottom: solid 1px black;"><%= post.title %></span></h2>
+                <a class="article-link" href="/posts/<%= post.id %>"></a>
             <% else %>
-                <h2><span style="border-bottom: solid 1px black;"><%= post.title %></span></h2>
+                <%= link_to "", post_views_path(post), method: :post, class: "article-link" %>
             <% end %>
-            <time datetime="<%= DateTime.parse(post.updated_at.to_s) %>"><span>🖊</span><%= post.updated_at.strftime("%a, %d %b %Y %X %Z") %></time>
+            <div class="currency-pair">
+                <h3><%= post.currency_pair %></h3>
+                <%= image_tag "#{post.currency_pair[0, 3]}.png", class: "currency", alt: "#{post.currency_pair[0, 3]}" %>
+                <%= image_tag "#{post.currency_pair[3, 6]}.png", class: "margin-currency", alt: "#{post.currency_pair[3, 6]}" %>
+            </div>
+            <div class="article-title">
+                <% if current_user.already_watched?(post) %>
+                    <h2><span style="border-bottom: solid 1px black;"><%= post.title %></span></h2>
+                <% else %>
+                    <h2><span style="border-bottom: solid 1px black;"><%= post.title %></span></h2>
+                <% end %>
+                <time datetime="<%= DateTime.parse(post.updated_at.to_s) %>"><span>🖊</span><%= post.updated_at.strftime("%a, %d %b %Y %X %Z") %></time>
+            </div>
+            <ul class="evaluation-box">
+                <% if current_user.already_liked?(post) %>
+                    <li style="background: #6495ED;"><%= link_to "👍#{post.likes.count}", "/posts/#{post.id}/likes/#{post.likes.find_by(user_id: current_user.id).id}", method: :delete %></li>
+                    <% if post.comments.exists?(user_id: current_user.id) %>
+                        <li style="background: #6495ED;"><%= link_to "💬#{post.comments.count}", post_path(post), method: :get %></li>
+                    <% else %>
+                      <li><%= link_to "💬#{post.comments.count}", post_path(post), method: :get %></li>
+                    <% end %>
+                    <% if current_user.already_watched?(post) %>
+                        <li style="background: #6495ED;">👁<%= post.views.count %></li>
+                    <% else %>
+                      <li>👁<%= post.views.count %></li>
+                    <% end %>
+                <% else %>
+                    <li><%= link_to "👍#{post.likes.count}", "/posts/#{post.id}/likes", method: :post %></li>
+                    <% if post.comments.exists?(user_id: current_user.id) %>
+                        <li style="background: #6495ED;"><%= link_to "💬#{post.comments.count}", post_path(post), method: :get %></li>
+                    <% else %>
+                      <li><%= link_to "💬#{post.comments.count}", post_path(post), method: :get %></li>
+                    <% end %>
+                    <% if current_user.already_watched?(post) %>
+                        <li style="background: #6495ED;">👁<%= post.views.count %></li>
+                    <% else %>
+                      <li>👁<%= post.views.count %></li>
+                    <% end %>
+                <% end %>
+            </ul>
+            <div class="poster-info">
+                <% if post.user.image.attached? %>
+                    <%= image_tag post.user.image, alt: "#{post.user.nickname}", class: "poster-image" %>
+                <% else %>
+                    <%= image_tag "default.png", alt: "#{post.user.nickname}", class: "poster-image" %>
+                <% end %>
+                <small>Poster: <%= link_to "#{post.user.nickname}", user_path(post.user.id), method: :get %></small>
+            </div>
         </div>
-        <ul class="evaluation-box">
-            <% if current_user.already_liked?(post) %>
-                <li style="background: #6495ED;"><%= link_to "👍#{post.likes.count}", "/posts/#{post.id}/likes/#{post.likes.find_by(user_id: current_user.id).id}", method: :delete %></li>
-                <% if post.comments.exists?(user_id: current_user.id) %>
-                    <li style="background: #6495ED;"><%= link_to "💬#{post.comments.count}", post_path(post), method: :get %></li>
-                <% else %>
-                  <li><%= link_to "💬#{post.comments.count}", post_path(post), method: :get %></li>
-                <% end %>
-                <% if current_user.already_watched?(post) %>
-                    <li style="background: #6495ED;">👁<%= post.views.count %></li>
-                <% else %>
-                  <li>👁<%= post.views.count %></li>
-                <% end %>
-            <% else %>
-                <li><%= link_to "👍#{post.likes.count}", "/posts/#{post.id}/likes", method: :post %></li>
-                <% if post.comments.exists?(user_id: current_user.id) %>
-                    <li style="background: #6495ED;"><%= link_to "💬#{post.comments.count}", post_path(post), method: :get %></li>
-                <% else %>
-                  <li><%= link_to "💬#{post.comments.count}", post_path(post), method: :get %></li>
-                <% end %>
-                <% if current_user.already_watched?(post) %>
-                    <li style="background: #6495ED;">👁<%= post.views.count %></li>
-                <% else %>
-                  <li>👁<%= post.views.count %></li>
-                <% end %>
+      <% end %>
+      <%= paginate @posts %>
+    </article>
+    <div class="right-side">
+        <div class="search-form">
+            <%= search_form_for @q, url: search_posts_path do |f| %>
+                <%= f.label :currency_pair_eq, 'Currency Pair' %>
+                <%= f.select :currency_pair_eq, ["USDJPY", "GBPJPY", "EURJPY", "AUDJPY", "NZDJPY", "CADJPY", "CHFJPY", "HKDJPY", "ZARJPY", "GBPUSD", "EURUSD", "AUDUSD", "NZDUSD"], :prompt => "Select" %>
+                <%= f.label :title_cont, 'Title' %>
+                <%= f.text_field :title_cont %>
+                <%= f.label :user_nickname_eq, 'Poster Name' %>
+                <%= f.text_field :user_nickname_eq, maxlength: 10 %><br>
+                <%= f.label :rich_text_content_body_cont, 'Free Word' %>
+                <%= f.search_field :rich_text_content_body_cont %>
+                <%= f.label :created_at, 'Created DateTime (YYYY/MM/DD - hh:mm)' %>
+                <%= f.datetime_select :created_at_gteq, include_blank: true %> ~
+                <%= f.datetime_select :created_at_lteq, include_blank: true %>
+                <%= f.label :updated_at_gteq, 'Updated DateTime (YYYY/MM/DD - hh:mm)' %>
+                <%= f.datetime_select :updated_at_gteq, include_blank: true %> ~
+                <%= f.datetime_select :updated_at_lteq, include_blank: true %>
+                
+                <%= f.submit 'Search', id: "submit" %>
             <% end %>
-        </ul>
-        <div class="poster-info">
-            <% if post.user.image.attached? %>
-                <%= image_tag post.user.image, alt: "#{post.user.nickname}", class: "poster-image" %>
-            <% else %>
-                <%= image_tag "default.png", alt: "#{post.user.nickname}", class: "poster-image" %>
-            <% end %>
-            <small>Poster: <%= link_to "#{post.user.nickname}", user_path(post.user.id), method: :get %></small>
         </div>
     </div>
-  <% end %>
-  <%= paginate @posts %>
-</article>
+</div>
