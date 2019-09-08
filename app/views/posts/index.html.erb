@@ -63,24 +63,44 @@
       <%= paginate @posts %>
     </article>
     <div class="right-side">
+        <div class="sort">
+            <p>Sort</p>
+            <ul class="sort-btn">
+                <li><%= sort_link(@q, :likes_user_id, 'Like', default_order: :desc) %></li>
+                <li><%= sort_link(@q, :comments_user_id, 'Comment', default_order: :desc) %></li>
+                <li><%= sort_link(@q, :views_user_id, 'View', default_order: :desc) %></li>
+            </ul>
+            <ul class="sort-btn">
+                <li><%= sort_link(@q, :created_at, 'Created DateTime', default_order: :desc) %></li>
+                <li><%= sort_link(@q, :updated_at, 'Updated DateTime', default_order: :desc) %></li>
+            </ul>
+            <small>[▲: ASC, ▼: DESC]</small>
+        </div>
         <div class="search-form">
+            <p>Search Form</p>
+            
             <%= search_form_for @q, url: search_posts_path do |f| %>
                 <%= f.label :currency_pair_eq, 'Currency Pair' %>
                 <%= f.select :currency_pair_eq, ["USDJPY", "GBPJPY", "EURJPY", "AUDJPY", "NZDJPY", "CADJPY", "CHFJPY", "HKDJPY", "ZARJPY", "GBPUSD", "EURUSD", "AUDUSD", "NZDUSD"], :prompt => "Select" %>
-                <%= f.label :title_cont, 'Title' %>
-                <%= f.text_field :title_cont %>
                 <%= f.label :user_nickname_eq, 'Poster Name' %>
                 <%= f.text_field :user_nickname_eq, maxlength: 10 %><br>
+                <%= f.label :title_cont, 'Title' %>
+                <%= f.text_field :title_cont %>
                 <%= f.label :rich_text_content_body_cont, 'Free Word' %>
                 <%= f.search_field :rich_text_content_body_cont %>
-                <%= f.label :created_at, 'Created DateTime (YYYY/MM/DD - hh:mm)' %>
-                <%= f.datetime_select :created_at_gteq, include_blank: true %> ~
-                <%= f.datetime_select :created_at_lteq, include_blank: true %>
-                <%= f.label :updated_at_gteq, 'Updated DateTime (YYYY/MM/DD - hh:mm)' %>
-                <%= f.datetime_select :updated_at_gteq, include_blank: true %> ~
-                <%= f.datetime_select :updated_at_lteq, include_blank: true %>
-                
+                <%= f.label :created_at, 'Created DateTime' %>
+                <!--<%= f.datetime_select :created_at_gteq, include_blank: true %> ~-->
+                <!--<%= f.datetime_select :created_at_lteq, include_blank: true %>-->
+                From<br><%= f.datetime_field :created_at_gteq %><br>
+                To<br><%= f.datetime_field :created_at_lteq %>
+                <%= f.label :updated_at_gteq, 'Updated DateTime' %>
+                <!--<%= f.datetime_select :updated_at_gteq, include_blank: true %> ~-->
+                <!--<%= f.datetime_select :updated_at_lteq, include_blank: true %>-->
+                From<br><%= f.datetime_field :updated_at_gteq %><br>
+                To<br><%= f.datetime_field :updated_at_lteq %>
+
                 <%= f.submit 'Search', id: "submit" %>
+                <input type="button" value="Reset" name="reset" id="reset" onClick='location.href="<%= root_path %>"'>
             <% end %>
         </div>
     </div>
