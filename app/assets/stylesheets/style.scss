@@ -185,12 +185,12 @@ header {
   margin-right: 10px;
   
   .sort {
-    width: 325px;
+    width: 300px;
     padding: 8px;
     margin: 10px auto;
     background-color:  #EEEEEE;
     border-radius: 6px;
-    box-shadow: 3px 3px 4px 1px;
+    box-shadow: 3px 3px 4px 2px;
     text-align: center;
     
     p {
@@ -215,12 +215,13 @@ header {
   }
   
   .search-form {
-    width: 325px;
+    width: 300px;
     padding: 8px;
     margin: 10px auto 10px;
     border-radius: 6px;
     background-color: #EEEEEE;
-    box-shadow: 3px 3px 4px 1px;
+    box-shadow: 3px 3px 4px 2px;
+    text-align: center;
     
     p {
       text-align: center;
