@@ -4,7 +4,9 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.order('updated_at DESC').includes(:user).page(params[:page]).per(10)
+    @q = Post.ransack(params[:q])
+    @posts = @q.result.order('updated_at DESC').includes(:user).page(params[:page]).per(10)
+    # @posts = Post.order('updated_at DESC').includes(:user).page(params[:page]).per(10)
   end
 
   # GET /posts/1
@@ -61,6 +63,13 @@ class PostsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def search
+    # @q = Post.ransack(currency_pair_eq: search_params[:currency_pair_eq], title_cont: search_params[:title_cont], user_nickname_eq: search_params[:user_nickname_eq], rich_text_content_cont: search_params[:rich_text_content_cont], created_at_gteq: search_params[:create_at_gteq], created_at_lteq: search_params[:create_at_lteq], updated_at_gteq: search_params[:updated_at_gteq], updated_at_lteq: search_params[:updated_at_lteq])
+    @q = Post.ransack(params[:q])
+    @posts = @q.result.order('updated_at DESC').includes(:user).page(params[:page]).per(10)
+    render action: 'index', object: @posts
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -71,5 +80,9 @@ class PostsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
       params.require(:post).permit(:title, :content, :currency_pair).merge(user_id: current_user.id)
+    end
+    
+    def search_params
+      params.require(:q).permit(:currency_pair_eq, :title_cont, :user_nickname_eq, :rich_text_content_body_cont, :created_at_gteq, :created_at_lteq, :updated_at_gteq, :updated_at_lteq)
     end
 end

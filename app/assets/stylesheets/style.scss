@@ -1,6 +1,7 @@
 html, body, ul {
     margin: 0;
     padding: 0;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -156,6 +157,107 @@ header {
   // ------------------------------------
   #user-image {
     display: none;
+    background-color: #EEEEEE;
+  }
+}
+
+.wrap {
+  margin-top: 110px;
+  display: flex;
+  display: -webkit-flex;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+}
+
+.left-side, .right-side {
+  width: 363px;
+  border-radius: 8px;
+  background: #AAAAAA;
+  box-shadow: 4px 4px 4px 1px inset;
+}
+
+.left-side {
+  margin-left: 10px;
+}
+
+.right-side {
+  height: 1539px;
+  margin-right: 10px;
+  
+  .sort {
+    width: 300px;
+    padding: 8px;
+    margin: 10px auto;
+    background-color:  #EEEEEE;
+    border-radius: 6px;
+    box-shadow: 3px 3px 4px 2px;
+    text-align: center;
+    
+    p {
+      border-top: solid 1px #6495ED;
+      border-bottom: solid 1px #6495ED;
+    }
+    
+    .sort-btn {
+      
+      li {
+        display: block;
+        margin: 4px auto;
+        
+         a {
+          &:hover {
+            color: #888888;
+            border-bottom: solid 1px black;
+          }
+        }
+      }
+    }
+  }
+  
+  .search-form {
+    width: 300px;
+    padding: 8px;
+    margin: 10px auto 10px;
+    border-radius: 6px;
+    background-color: #EEEEEE;
+    box-shadow: 3px 3px 4px 2px;
+    text-align: center;
+    
+    p {
+      text-align: center;
+      border-top: solid 1px #6495ED;
+      border-bottom: solid 1px #6495ED;
+    }
+    
+    label{
+      margin-top: 15px;
+      margin-bottom: 2px;
+    }
+    
+    #submit {
+      width: 100%;
+      margin: 10px 0;
+      background-color: #C2EEFF;
+      cursor: pointer;
+      cursor: hand;
+      transition: background-color 0.5s ease 0s, color 0.3s ease 0s;
+      &:hover {
+        background-color: #6495ED;
+        color: white;
+      }
+    }
+    
+    #reset {
+      width: 100%;
+      background-color: #FF9872;
+      cursor: pointer;
+      cursor: hand;
+      transition: background-color 0.5s ease 0s, color 0.3s ease 0s;
+      &:hover {
+        background-color: #FF6928;
+        color: white;
+      }
+    }
   }
 }
 
@@ -163,11 +265,11 @@ article {
   width: 700px;
   height: 100%;
   margin: 0 auto;
-  margin-top: 110px;
+  // margin-top: 110px;
   padding: 20px 0;
   border-radius: 8px;
-  background-color: #AAAAAA	;
-  box-shadow: 4px 4px 4px inset;
+  background-color: #AAAAAA;
+  box-shadow: 4px 4px 4px 1px inset;
   
   .article-container {
     height: 100px;
@@ -189,12 +291,12 @@ article {
     animation-iteration-count: 1;
     transition: background 0.5s ease 0s, transform 0.5s ease 0s;
     &:hover {
-      background: #CCCCCC;
+    //   background: #CCCCCC;
       transform: translateX(-10px);
       
-      .article-title h2 {
-        color: white;
-      }
+    //   .article-title h2 {
+    //     color: white;
+    //   }
     }
     
     a.article-link {
@@ -563,7 +665,7 @@ article {
   .actions input {
     width: 100%;
     background-color: #C2EEFF;
-    transition: background 0.5s ease 0s;
+    transition: background 0.5s ease 0s, color 0.3s ease 0s;
     &:hover {
       background-color: #6495ED;
       color: white;

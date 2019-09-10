@@ -13,6 +13,10 @@ Rails.application.routes.draw do
     resources :likes, only: [:create, :destroy]
     resources :views, only: [:create]
     resources :comments, only: [:create, :destroy]
+    
+    collection do
+      match 'search' => 'posts#search', via: [:get, :post], as: :search
+    end
   end
   
   resources :users, only: [:show]
