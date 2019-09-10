@@ -7,6 +7,7 @@ class PostsController < ApplicationController
     @q = Post.ransack(params[:q])
     @posts = @q.result.order('updated_at DESC').includes(:user).page(params[:page]).per(10)
     # @posts = Post.order('updated_at DESC').includes(:user).page(params[:page]).per(10)
+    @ranks = @posts.create_ranks
   end
 
   # GET /posts/1
