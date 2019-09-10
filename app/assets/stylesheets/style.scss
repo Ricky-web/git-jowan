@@ -178,10 +178,56 @@ header {
 
 .left-side {
   margin-left: 10px;
+  
+  .ranks-area {
+    width: 330px;
+    margin: 10px auto;
+    padding: 8px;
+    border-radius: 8px;
+    background: #EEEEEE;
+    box-shadow: 3px 3px 2px;
+    word-break: break-all;
+    
+    .rank-container {
+      display: flex;
+      display: -webkit-flex;
+      justify-content: flex-start;
+      -webkit-justify-content: flex-start;
+      margin: 10px 0;
+      border-bottom: solid 0.5px #AAAAAA;
+      
+      .rank-number {
+        width: 19px;
+        min-width: 19px;
+        margin-right: 5px;
+        white-space: nowrap;
+        color: #AAAAAA;
+        text-align: center;
+      }
+      
+      .posted-title {
+        flex-grow: 1;
+        -webkit-flex-grow: 1;
+      }
+    }
+    
+    h4 {
+      border-top: solid 1px #6495ED;
+      border-bottom: solid 1px #6495ED;
+      text-align: center;
+    }
+    
+    a {
+      &:hover {
+        color: #888888;
+        // border-bottom: solid 0.5px black;
+      }
+    }
+  }
 }
 
 .right-side {
-  height: 1539px;
+  // height: 1539px;
   margin-right: 10px;
   
   .sort {
@@ -193,7 +239,8 @@ header {
     box-shadow: 3px 3px 4px 2px;
     text-align: center;
     
-    p {
+    h4 {
+      margin: 10px 0;
       border-top: solid 1px #6495ED;
       border-bottom: solid 1px #6495ED;
     }
@@ -207,7 +254,7 @@ header {
          a {
           &:hover {
             color: #888888;
-            border-bottom: solid 1px black;
+            border-bottom: solid 0.5px black;
           }
         }
       }
@@ -223,7 +270,8 @@ header {
     box-shadow: 3px 3px 4px 2px;
     text-align: center;
     
-    p {
+    h4 {
+      margin: 10px 0;
       text-align: center;
       border-top: solid 1px #6495ED;
       border-bottom: solid 1px #6495ED;
