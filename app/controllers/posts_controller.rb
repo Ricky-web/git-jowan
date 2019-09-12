@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :ranks, only: [:index, :search]
 
   # GET /posts
   # GET /posts.json
@@ -84,5 +85,9 @@ class PostsController < ApplicationController
     
     def search_params
       params.require(:q).permit(:currency_pair_eq, :title_cont, :user_nickname_eq, :rich_text_content_body_cont, :created_at_gteq, :created_at_lteq, :updated_at_gteq, :updated_at_lteq)
+    end
+    
+    def ranks
+      @ranks = Post.create_ranks
     end
 end
