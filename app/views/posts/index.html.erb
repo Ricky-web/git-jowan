@@ -2,13 +2,17 @@
     <div class="left-side">
         <div class="ranks-area">
             <h4>Daily Ranking</h4>
-            <% @ranks.each.with_index(1) do |post, i| %>
-                <div class="rank-container">
-                    <div class="rank-number"><strong><%= i %></strong></div>
-                    <div class="posted-title">
-                        <%= link_to "#{post.title}", post_path(post), method: :get %>
+            <% if @ranks.present? %>
+                <% @ranks.each.with_index(1) do |post, i| %>
+                    <div class="rank-container">
+                        <div class="rank-number"><strong><%= i %></strong></div>
+                        <div class="posted-title">
+                            <%= link_to "#{post.title}", post_path(post), method: :get %>
+                        </div>
                     </div>
-                </div>
+                <% end %>
+            <% else %>
+                <p>Not yet</p>
             <% end %>
         </div>
     </div>
