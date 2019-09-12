@@ -347,6 +347,34 @@ article {
     //   }
     }
     
+    .new {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: red;
+      color: white;
+      text-align: center;
+      line-height: 40px;
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      transform: rotateZ(-25deg);
+      animation-name: Flash;
+      animation-duration: 1.5s;
+      animation-iteration-count: infinite;
+      animation-direction: reverse;
+    }
+    
+    @-webkit-keyframes Flash {
+      0% {
+        opacity: 0;
+      }
+      
+      100% {
+        opacity: 1;
+      }
+    }
+    
     a.article-link {
       position: absolute;
       top: 0;

@@ -23,4 +23,15 @@ class Post < ApplicationRecord
        return result
        
     end
+    
+    def self.new_post
+        now = Time.current
+        ten_minutes_ago = now.ago(10.minutes)
+        
+        if ten_minutes_ago < self.created_at
+            true
+        else
+            false
+        end
+    end
 end

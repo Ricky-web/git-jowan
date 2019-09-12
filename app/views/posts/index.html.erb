@@ -21,6 +21,9 @@
       <%= paginate @posts %>
       <% @posts.each do |post| %>
         <div class="article-container">
+            <% if @ten_minutes_ago < post.created_at %>
+                <div class="new">NEW</div>
+            <% end %>
             <% if current_user.already_watched?(post) %>
                 <a class="article-link" href="/posts/<%= post.id %>"></a>
             <% else %>

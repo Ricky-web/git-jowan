@@ -8,6 +8,8 @@ class PostsController < ApplicationController
     @q = Post.ransack(params[:q])
     @posts = @q.result.order('updated_at DESC').includes(:user).page(params[:page]).per(10)
     # @posts = Post.order('updated_at DESC').includes(:user).page(params[:page]).per(10)
+    now = Time.current
+    @ten_minutes_ago = now.ago(10.minutes)
   end
 
   # GET /posts/1
