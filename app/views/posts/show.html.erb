@@ -54,7 +54,7 @@
     <%= @post.content %>
   <div class="separator-line"></div>
   <div class="comments-area">
-    <% if @comments %>
+    <% if @comments.present? %>
       <% @comments.each do |comment| %>
         <div class="user-come-wrap">
           <% if comment.user.image.attached? %>
@@ -73,6 +73,8 @@
           </div>
         </div>
       <% end %>
+    <% else %>
+      <p>Not yet</p>
     <% end %>
   </div>
   <div class="separator-line"></div>

@@ -1,7 +1,7 @@
 <div class="wrap">
     <div class="left-side">
         <div class="ranks-area">
-            <h4>Daily Ranking</h4>
+            <h4><%= Date.today %> BEST 20</h4>
             <% if @ranks.present? %>
                 <% @ranks.each.with_index(1) do |post, i| %>
                     <div class="rank-container">
