@@ -8,10 +8,10 @@ class User < ApplicationRecord
   presence: true, uniqueness: true, length: {maximum: 10}
   
   has_one_attached :image
-  has_many :posts
-  has_many :likes
-  has_many :views
-  has_many :comments
+  has_many :posts, foreign_key: :user_id, dependent: :destroy
+  has_many :likes, foreign_key: :user_id, dependent: :destroy
+  has_many :views, foreign_key: :user_id, dependent: :destroy
+  has_many :comments, foreign_key: :user_id, dependent: :destroy
   
   def already_watched?(post)
     self.views.exists?(post_id: post.id)
