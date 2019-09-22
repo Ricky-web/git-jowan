@@ -24,6 +24,12 @@
             <%= image_tag "default.png", class: "UserProfile-avatar", alt: "User:#{@user.nickname}" %>
         <% end %>
         <div class="p-info">
+            <%= form_for(@user, url: "/users/#{@user.id}", html: {method: "patch"}) do |f| %>
+                <%= f.label :nickname %>
+                <%= f.text_field :nickname %>
+                
+                <%= f.submit %>
+            <% end %>
         </div>
     </main>
 </body>
