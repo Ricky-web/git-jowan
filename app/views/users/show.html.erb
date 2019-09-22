@@ -1,0 +1,29 @@
+<head>
+    <title>Jowan - <%= @user.nickname %></title>
+</head>
+<body>
+    <div id="show" class="big-bg">
+        <header class="page-header wrapper">
+            <h1><a href="/"><%= image_tag "logo.png", class: "logo", alt: "Jowan" %></a></h1>
+            <nav>
+                <ul class="main-nav">
+                    <li>test1</li>
+                    <li>test2</li>
+                    <li>test3</li>
+                </ul>
+            </nav>
+        </header>
+        <div class="wrapper">
+            <h2 class="page-title">My Page</h2>
+        </div>
+    </div>
+    <main>
+        <% if @user.image.attached? %>
+            <%= image_tag "#{@user.image}", class: "UserProfile-avatar", alt: "User:#{@user.nickname}" %>
+        <% else %>
+            <%= image_tag "default.png", class: "UserProfile-avatar", alt: "User:#{@user.nickname}" %>
+        <% end %>
+        <div class="p-info">
+        </div>
+    </main>
+</body>

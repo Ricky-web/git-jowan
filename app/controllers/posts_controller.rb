@@ -1,12 +1,14 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
-  before_action :ranks, only: [:index, :search]
+  before_action :ranks, only: [:top]
 
   # GET /posts
   # GET /posts.json
   def index
     @q = Post.ransack(params[:q])
-    @posts = @q.result.order('updated_at DESC').includes(:user).page(params[:page]).per(10)
+    posts = @q.result.order('updated_at DESC').includes(:user)
+    @posts = posts.page(params[:page]).per(10)
+    @posts_count = posts.count
     # @posts = Post.order('updated_at DESC').includes(:user).page(params[:page]).per(10)
     now = Time.current
     @ten_minutes_ago = now.ago(10.minutes)
@@ -68,13 +70,17 @@ class PostsController < ApplicationController
   end
   
   def search
+    
     now = Time.current
     @ten_minutes_ago = now.ago(10.minutes)
     
     # @q = Post.ransack(currency_pair_eq: search_params[:currency_pair_eq], title_cont: search_params[:title_cont], user_nickname_eq: search_params[:user_nickname_eq], rich_text_content_cont: search_params[:rich_text_content_cont], created_at_gteq: search_params[:create_at_gteq], created_at_lteq: search_params[:create_at_lteq], updated_at_gteq: search_params[:updated_at_gteq], updated_at_lteq: search_params[:updated_at_lteq])
     @q = Post.ransack(params[:q])
-    @posts = @q.result.order('updated_at DESC').includes(:user).page(params[:page]).per(10)
-    render action: 'index', object: @posts
+    posts = @q.result.order('updated_at DESC').includes(:user)
+    @posts = posts.page(params[:page]).per(10)
+    @posts_count = posts.count
+    
+    render action: 'index'
   end
 
   private

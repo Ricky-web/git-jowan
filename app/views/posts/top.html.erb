@@ -1,0 +1,64 @@
+<head>
+    <title>Jowan</title>
+</head>
+<body>
+    <div id="home" class="big-bg">
+    
+        <header class="page-header wrapper">
+            <h1><a href="#"><%= image_tag 'logo.png', alt: "Jowan", class: "logo" %></a></h1>
+            <nav>
+                <p class="alert"><%= alert %></p>
+                <ul class="main-nav">
+                    <li><a href="users/sign_in"><i class="fas fa-sign-in-alt"></i>&nbsp;SignIn</a></li>
+                    <li><a href="users/sign_up"><i class="fas fa-user-plus"></i>&nbsp;SginUp</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <div class="home-content wrapper">
+            <h2 class="page-title fadeIn">Welcome to Jowan!</h2>
+            <p class="fadeIn">
+                Jowan is specialized sharing platform for FX. Share your valuable information!
+            </p>
+            <div class="separator fadeIn"></div>
+            <%= link_to 'View articles >>', posts_path, method: :get, class: "btn fadeIn-delay" %>
+            
+        </div>
+    
+    </div>
+    
+    <section class="daily-ranks">
+        <h3><i class="fas fa-chart-line"></i>&nbsp;Daily Ranks: <%= Date.today.strftime("%d %B, %Y") %></h3>
+        <time datetime="<%= Time.current.strftime("%FT%T%z") %>"><i class="fas fa-history"></i>&nbsp;<%= DateTime.current.strftime("%a, %d %b %Y %X %Z") %></time>
+        <% if @ranks.present? %>
+            <% @ranks.each.with_index(1) do |post, i| %>
+                <div class="post-content separator">
+                    <div class="rank-number">
+                        <span class="number number-<%= i %>"><%= i %></span>
+                    </div>
+                    <% if post.user.image.attached? %>
+                        <%= image_tag "#{post.user.image}", class: "img-author", alt: "Author:#{post.user.nickname}" %>
+                    <% else %>
+                        <%= image_tag "default.png", class: "img-author", alt: "Author:#{post.user.nickname}" %>
+                    <% end %>
+                    <div class="post-title">
+                        <%= link_to "#{post.title}", post_path(post), method: :get %>
+                        <div class="tr-Item">
+                            <time datetime="<%= post.created_at.strftime("%FT%T%z") %>"><i class="far fa-clock">&nbsp;<%= post.created_at.strftime("%F %T") %></i></time>
+                            <span class="like-count"><i class="far fa-thumbs-up">&nbsp;<%= post.likes.count %></i></span>
+                        </div>
+                    </div>
+                    
+                </div>
+            <% end %>
+        <% else %>
+            <div class="no-ranks separator">Not update yet.</div>
+        <% end %>
+    </section>
+    
+    <footer>
+        <div class="wrapper">
+            <p><small>&copy; 2019 Jowan</small></p>
+        </div>
+    </footer>
+</body>

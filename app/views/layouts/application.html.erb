@@ -1,36 +1,37 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Jowan</title>
+    <!--<title>Jowan</title>-->
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= favicon_link_tag 'favicon.png' %>
+    
+    <link rel="stylesheet" href="https://unpkg.com/ress/dest/ress.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/2479a8e666.js" crossorigin="anonymous"></script>
   </head>
 
-  <body>
-    <% if user_signed_in? %>
-    <header>
-      <h2 class="app-name"><%= link_to 'Jowan', root_path, method: :get %></h2>
-        <label><input type="checkbox" id="user-image" name="<%= current_user.nickname %>-image">
-          <% if current_user.image.attached? %>
-            <%= image_tag current_user.image, class: "user-image" %>
-          <% else %>
-            <%= image_tag "default.png", class: "user-image" %>
-          <% end %>
-          <ul class="user-btn">
-            <li><%= link_to 'POST', new_post_path, method: :get %></li>
-            <li><%= link_to 'MyPage', '/', method: :get %></li>
-            <li><%= link_to 'LogOut', destroy_user_session_path, method: :delete %></li>
-          </ul>
-        </label>
-    </header>
-    <% end %>
-    <p class="alert"><%= alert %></p>
+    <!--<% if user_signed_in? %>-->
+    <!--<header>-->
+    <!--  <h2 class="app-name"><%= link_to 'Jowan', root_path, method: :get %></h2>-->
+    <!--    <label><input type="checkbox" id="user-image" name="<%= current_user.nickname %>-image">-->
+    <!--      <% if current_user.image.attached? %>-->
+    <!--        <%= image_tag current_user.image, class: "user-image" %>-->
+    <!--      <% else %>-->
+    <!--        <%= image_tag "default.png", class: "user-image" %>-->
+    <!--      <% end %>-->
+    <!--      <ul class="user-btn">-->
+    <!--        <li><%= link_to 'POST', new_post_path, method: :get %></li>-->
+    <!--        <li><%= link_to 'MyPage', '/', method: :get %></li>-->
+    <!--        <li><%= link_to 'LogOut', destroy_user_session_path, method: :delete %></li>-->
+    <!--      </ul>-->
+    <!--    </label>-->
+    <!--</header>-->
+    <!--<% end %>-->
+    <!--<p class="alert"><%= alert %></p>-->
     <%= yield %>
-    <footer>
-      <p>© 2019 Jowan</p>
-    </footer>
-  </body>
 </html>

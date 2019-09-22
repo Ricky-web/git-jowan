@@ -1,7 +1,23 @@
-<div class="form-area">
-    <h1>New Post</h1>
-    <div class="separator-line"></div>
-    
-    <%= render 'form', post: @post %>
-    
-</div>
+<head>
+    <title>Jowan - Create Post</title>
+</head>
+<body>
+    <div id="show" class="big-bg">
+        <header class="page-header wrapper">
+            <h1><a href="/"><%= image_tag 'logo.png', class: "logo", alt: "Jowan" %></a></h1>
+            <nav>
+                <ul class="main-nav">
+                    <li><a href="/posts" data-method="get"><i class="far fa-newspaper"></i>&nbsp;Artcles</a></li>
+                    <li><a href="/users/sign_out" data-method="delete"><i class="fas fa-running"></i>&nbsp;LogOut</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="wrapper">
+            <h2 class="page-title">Create New Article</h2>
+        </div>
+    </div>
+        <%= render 'form', post: @post %>
+    <footer>
+        <p><small>&copy; 2019 Jowan</small></p>
+    </footer>
+</body>

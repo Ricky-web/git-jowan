@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   
-  root to: "posts#index"
+  root to: "posts#top"
   
   Rails.application.routes.draw do
     devise_for :users, controllers: {

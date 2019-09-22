@@ -1,7 +1,7 @@
-<%= form_with(model: post, local: true, class: "editor-form") do |form| %>
+<%= form_with(model: post, local: true) do |form| %>
   <% if post.errors.any? %>
     <div id="error_explanation">
-      <h2><i class="fas fa-exclamation-triangle"></i>&nbsp;<%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
 
       <ul>
         <% post.errors.full_messages.each do |message| %>
@@ -17,7 +17,7 @@
   </div>
   
   <div class="field">
-    <%= form.label :currency_pair, 'Currency Pair' %>
+    <%= form.label :currency_pair %>
     <%= form.select :currency_pair, ["USDJPY", "GBPJPY", "EURJPY", "AUDJPY", "NZDJPY", "CADJPY", "CHFJPY", "HKDJPY", "ZARJPY", "GBPUSD", "EURUSD", "AUDUSD", "NZDUSD"], :prompt => "Select" %>
   </div>
   
@@ -26,7 +26,8 @@
     <%= form.rich_text_area :content %>
   </div>
   
+  <div class="separator-line"></div>
   <div class="actions">
-    <%= form.submit 'Create' %>
+    <%= form.submit %>
   </div>
 <% end %>

@@ -1,126 +1,110 @@
-<div class="wrap">
-    <div class="left-side">
-        <div class="ranks-area">
-            <h4><%= Date.today %> BEST 20</h4>
-            <% if @ranks.present? %>
-                <% @ranks.each.with_index(1) do |post, i| %>
-                    <div class="rank-container">
-                        <div class="rank-number"><strong><%= i %></strong></div>
-                        <div class="posted-title">
-                            <%= link_to "#{post.title}", post_path(post), method: :get %>
+<head>
+    <title>Jowan - Articles</title>
+</head>
+<body>
+    <div id="articles" class="big-bg">
+        <header class="page-header wrapper">
+            <h1><a href="/"><%= image_tag 'logo.png', alt: "Jowan", class: "logo" %></a></h1>
+            <nav>
+                <p class="alert"><%= alert %></p>
+                <ul class="main-nav">
+                    <li><a href="/posts/new" data-method="get"><i class="far fa-plus-square"></i>&nbsp;POST</a></li>
+                    <li><a href="/users/<%= current_user.id %>"><i class="fas fa-user-circle"></i>&nbsp;MyPage</a></li>
+                    <li><a href="/users/sign_out" data-method="delete"><i class="fas fa-running"></i>&nbsp;LogOut</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="wrapper">
+            <h2 class="page-title"><a href="/posts">Articles</a></h2>
+        </div>
+    </div>
+    <div class="articles-contents wrapper">
+        <section>
+            <%= paginate @posts %>
+            <% if @posts.present? %>
+                <% @posts.each do |post| %>
+                    <div class="post-<%= post.user.id %> container separator">
+                        <% if post.user.image.attached? %>
+                            <%= link_to search_posts_path(params: {:q => {user_nickname_eq: post.user.nickname}}), method: :post do %>
+                                <%= image_tag "#{post.user.image}", class: "img-author", alt: "Author:#{post.user.nickname}" %>
+                            <% end %>
+                        <% else %>
+                            <%= link_to search_posts_path(params: {:q => {user_nickname_eq: post.user.nickname}}), method: :post do %>
+                                <%= image_tag "default.png", class: "img-author", alt: "Author:#{post.user.nickname}" %>
+                            <% end %>
+                        <% end %>
+                        <%= image_tag "#{post.currency_pair[0, 3]}.png", class: "currency", alt: "#{post.currency_pair[0, 3]}" %>
+                        <%= image_tag "#{post.currency_pair[3, 6]}.png", class: "margin-currency", alt: "#{post.currency_pair[3, 6]}" %>
+                        <% if current_user.already_watched?(post) %>
+                            <h2 class="post-title"><%= link_to "#{post.title}", post_path(post), method: :get %></h2>
+                       <% else %>
+                            <h2 class="post-title"><%= link_to "#{post.title}", post_views_path(post), method: :post %></h2>
+                       <% end %>
+                        <div class="tr-Item">
+                            <time class="post-date" datetime="<%= post.updated_at.strftime("%FT%T%z") %>"><i class="far fa-clock">&nbsp;<%= post.updated_at.strftime("%a, %d %b %Y %X %Z") %></i></time>
+                            <span class="like-count"><i class="far fa-thumbs-up">&nbsp;<%= post.likes.count %></i></span>
+                            <span class="comment-count"><i class="far fa-comment">&nbsp;<%= post.comments.count %></i></span>
+                            <span class="view-count"><i class="far fa-eye">&nbsp;<%= post.views.count %></i></span>
                         </div>
+                        <% if @ten_minutes_ago < post.created_at %>
+                            <span class="new-ms">NEW</span>
+                        <% end %>
                     </div>
                 <% end %>
             <% else %>
-                <p>Not yet</p>
+                <p>Not found</p>
             <% end %>
-        </div>
-    </div>
-    <article>
-      <p id="notice"><%= notice %></p>
-      <%= paginate @posts %>
-      <% @posts.each do |post| %>
-        <div class="article-container">
-            <% if @ten_minutes_ago < post.created_at %>
-                <div class="new">NEW</div>
-            <% end %>
-            <% if current_user.already_watched?(post) %>
-                <a class="article-link" href="/posts/<%= post.id %>"></a>
-            <% else %>
-                <%= link_to "", post_views_path(post), method: :post, class: "article-link" %>
-            <% end %>
-            <div class="currency-pair">
-                <h3><%= post.currency_pair %></h3>
-                <%= image_tag "#{post.currency_pair[0, 3]}.png", class: "currency", alt: "#{post.currency_pair[0, 3]}" %>
-                <%= image_tag "#{post.currency_pair[3, 6]}.png", class: "margin-currency", alt: "#{post.currency_pair[3, 6]}" %>
-            </div>
-            <div class="article-title">
-                <% if current_user.already_watched?(post) %>
-                    <h2><span style="border-bottom: solid 1px black;"><%= post.title %></span></h2>
-                <% else %>
-                    <h2><span style="border-bottom: solid 1px black;"><%= post.title %></span></h2>
-                <% end %>
-                <time datetime="<%= DateTime.parse(post.updated_at.to_s) %>"><span>🖊</span><%= post.updated_at.strftime("%a, %d %b %Y %X %Z") %></time>
-            </div>
-            <ul class="evaluation-box">
-                <% if current_user.already_liked?(post) %>
-                    <li style="background: #6495ED;"><%= link_to "👍#{post.likes.count}", "/posts/#{post.id}/likes/#{post.likes.find_by(user_id: current_user.id).id}", method: :delete %></li>
-                    <% if post.comments.exists?(user_id: current_user.id) %>
-                        <li style="background: #6495ED;"><%= link_to "💬#{post.comments.count}", post_path(post), method: :get %></li>
-                    <% else %>
-                      <li><%= link_to "💬#{post.comments.count}", post_path(post), method: :get %></li>
-                    <% end %>
-                    <% if current_user.already_watched?(post) %>
-                        <li style="background: #6495ED;">👁<%= post.views.count %></li>
-                    <% else %>
-                      <li>👁<%= post.views.count %></li>
-                    <% end %>
-                <% else %>
-                    <li><%= link_to "👍#{post.likes.count}", "/posts/#{post.id}/likes", method: :post %></li>
-                    <% if post.comments.exists?(user_id: current_user.id) %>
-                        <li style="background: #6495ED;"><%= link_to "💬#{post.comments.count}", post_path(post), method: :get %></li>
-                    <% else %>
-                      <li><%= link_to "💬#{post.comments.count}", post_path(post), method: :get %></li>
-                    <% end %>
-                    <% if current_user.already_watched?(post) %>
-                        <li style="background: #6495ED;">👁<%= post.views.count %></li>
-                    <% else %>
-                      <li>👁<%= post.views.count %></li>
-                    <% end %>
-                <% end %>
-            </ul>
-            <div class="poster-info">
-                <% if post.user.image.attached? %>
-                    <%= image_tag post.user.image, alt: "#{post.user.nickname}", class: "poster-image" %>
-                <% else %>
-                    <%= image_tag "default.png", alt: "#{post.user.nickname}", class: "poster-image" %>
-                <% end %>
-                <small>Poster: <%= link_to "#{post.user.nickname}", user_path(post.user.id), method: :get %></small>
-            </div>
-        </div>
-      <% end %>
-      <%= paginate @posts %>
-    </article>
-    <div class="right-side">
-        <div class="sort">
-            <h4>Sort</h4>
-            <ul class="sort-btn">
-                <li><%= sort_link(@q, :likes_user_id, 'Like', default_order: :desc) %></li>
-                <li><%= sort_link(@q, :comments_user_id, 'Comment', default_order: :desc) %></li>
-                <li><%= sort_link(@q, :views_user_id, 'View', default_order: :desc) %></li>
-            </ul>
-            <ul class="sort-btn">
-                <li><%= sort_link(@q, :created_at, 'Created DateTime', default_order: :desc) %></li>
-                <li><%= sort_link(@q, :updated_at, 'Updated DateTime', default_order: :desc) %></li>
-            </ul>
-            <small>[▲: ASC, ▼: DESC]</small>
-        </div>
-        <div class="search-form">
-            <h4>Search Form</h4>
-            
+            <%= paginate @posts %>
+        </section>
+        
+        <aside>
+            <h3 class="sub-title">Search for articles</h3>
             <%= search_form_for @q, url: search_posts_path do |f| %>
-                <%= f.label :currency_pair_eq, 'Currency Pair' %>
-                <%= f.select :currency_pair_eq, ["USDJPY", "GBPJPY", "EURJPY", "AUDJPY", "NZDJPY", "CADJPY", "CHFJPY", "HKDJPY", "ZARJPY", "GBPUSD", "EURUSD", "AUDUSD", "NZDUSD"], :prompt => "Select" %>
-                <%= f.label :user_nickname_eq, 'Poster Name' %>
-                <%= f.text_field :user_nickname_eq, maxlength: 10 %><br>
-                <%= f.label :title_cont, 'Title' %>
-                <%= f.text_field :title_cont %>
-                <%= f.label :rich_text_content_body_cont, 'Free Word' %>
-                <%= f.search_field :rich_text_content_body_cont %>
-                <%= f.label :created_at_gteq, 'Created DateTime' %>
-                <!--<%= f.datetime_select :created_at_gteq, include_blank: true %> ~-->
-                <!--<%= f.datetime_select :created_at_lteq, include_blank: true %>-->
-                From<br><%= f.datetime_field :created_at_gteq %><br>
-                To<br><%= f.datetime_field :created_at_lteq %>
-                <%= f.label :updated_at_gteq, 'Updated DateTime' %>
-                <!--<%= f.datetime_select :updated_at_gteq, include_blank: true %> ~-->
-                <!--<%= f.datetime_select :updated_at_lteq, include_blank: true %>-->
-                From<br><%= f.datetime_field :updated_at_gteq %><br>
-                To<br><%= f.datetime_field :updated_at_lteq %>
-
-                <%= f.submit 'Search', id: "submit" %>
-                <input type="button" value="Reset" name="reset" id="reset" onClick='location.href="<%= root_path %>"'>
+            
+                <div class="field">
+                    <%= f.label :currency_pair_eq, 'Currency Pair' %>
+                    <%= f.select :currency_pair_eq, ["USDJPY", "GBPJPY", "EURJPY", "AUDJPY", "NZDJPY", "CADJPY", "CHFJPY", "HKDJPY", "ZARJPY", "GBPUSD", "EURUSD", "AUDUSD", "NZDUSD"], :prompt => "Select" %>
+                </div>
+                
+                <div class="field">
+                    <%= f.label :user_nickname_eq, 'Nickname' %>
+                    <%= f.text_field :user_nickname_eq, maxlength: 10 %>
+                </div>
+                
+                <div class="field">
+                    <%= f.label :title_cont, 'Title' %>
+                    <%= f.text_field :title_cont %>
+                </div>
+                
+                <div class="field">
+                    <%= f.label :rich_text_content_body_cont, 'Free Word' %>
+                    <%= f.text_field :rich_text_content_body_cont %>
+                </div>
+                
+                <div class="field">
+                    <%= f.label :created_at_gteq, 'Created DateTime' %>
+                    <%= f.datetime_field :created_at_gteq %>
+                    <%= f.datetime_field :created_at_lteq %>
+                </div>
+                
+                <div class="field">
+                    <%= f.label :updated_at_gteq, 'Updated DateTime'%>
+                    <%= f.datetime_field :updated_at_gteq %>
+                    <%= f.datetime_field :updated_at_lteq %>
+                </div>
+                
+                <%= f.submit 'Search' %>
             <% end %>
-        </div>
+            <h3 class="sub-title">お店について</h3>
+            <p>
+                体に優しい
+                おいしい
+            </p>
+        </aside>
     </div>
-</div>
+    <footer>
+        <div class="wrapper">
+            <p><small>&copy; 2019 Jowan</small></p>
+        </div>
+    </footer>
+</body>
