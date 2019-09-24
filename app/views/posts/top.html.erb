@@ -37,7 +37,7 @@
                         <span class="number number-<%= i %>"><%= i %></span>
                     </div>
                     <% if post.user.image.attached? %>
-                        <%= image_tag "#{post.user.image}", class: "img-author", alt: "Author:#{post.user.nickname}" %>
+                        <%= image_tag post.user.image, class: "img-author", alt: "Author:#{post.user.nickname}" %>
                     <% else %>
                         <%= image_tag "default.png", class: "img-author", alt: "Author:#{post.user.nickname}" %>
                     <% end %>

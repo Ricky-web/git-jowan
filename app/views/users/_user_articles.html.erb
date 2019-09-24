@@ -1,0 +1,25 @@
+<div class="separator">
+    <% if post.user.image.attached? %>
+        <%= image_tag post.user.image, class: "img-author", alt: "Author:#{post.user.nickname}" %> 
+    <% else %>
+        <%= image_tag "default.png", class: "img-author", alt: "Author:#{post.user.nickname}" %>
+    <% end %>
+    <h3 class="post-title"><%= link_to "#{post.title}", post_path(post), method: :get  %></h3>
+    <div class="row-Item">
+        <time datetime="<%= post.created_at.strftime("%FT%T%z") %>"><i class="far fa-clock"></i>&nbsp;<%= post.created_at.strftime("%a, %d %b %Y %X %Z") %></time>
+        <time datetime="<%= post.updated_at.strftime("%FT%T%z") %>"><i class="fas fa-history"></i>&nbsp;<%= post.updated_at.strftime("%a, %d %b %Y %X %Z") %></time>
+        <ul class="evaluation-ls">
+            <li><i class="far fa-thumbs-up"></i>&nbsp;<%= post.likes.count %></li>
+            <li><i class="far fa-comment"></i>&nbsp;<%= post.comments.count %></li>
+            <li><i class="far fa-eye"></i>&nbsp;<%= post.views.count %></li>
+        </ul>
+        <% if post.user_id == current_user.id %>
+            <%= link_to edit_post_path(post), method: :get, class: "e-btn" do %>
+                <i class="far fa-edit"></i>&nbsp;Edit
+            <% end %>
+            <%= link_to post_path(post), method: :delete, class: "d-btn", data: {confirm: "Do you delete? Once deleted, it cannot be restored. Title: #{post.title}"} do %>
+                <i class="far fa-trash-alt"></i>&nbsp;Delete
+            <% end %>
+        <% end %>
+    </div>
+</div>

@@ -22,7 +22,7 @@
             <header class="post-info">
                 <% if @post.user.image.attached? %>
                     <%= link_to search_posts_path(params: {:q => {user_nickname_eq: @post.user.image}}), method: :post do %>
-                        <%= image_tag "#{@post.user.image}", class: "img-author", alt: "Author:#{@post.user.nickname}" %>
+                        <%= image_tag @post.user.image, class: "img-author", alt: "Author:#{@post.user.nickname}" %>
                     <% end %>
                 <% else %>
                     <%= link_to search_posts_path(params: {:q => {user_nickname_eq: @post.user.nickname}}), method: :post do %>
@@ -58,7 +58,7 @@
                 <div class="comment-wrap">
                     <% if comment.user.image.attached? %>
                         <%= link_to search_posts_path(params: {:q => {user_nickname_eq: comment.user.nickname}}), method: :post do %>
-                            <%= image_tag "#{comment.user.image}", class: "img-user", alt: "User:#{comment.user.nickname}" %>
+                            <%= image_tag comment.user.image, class: "img-user", alt: "User:#{comment.user.nickname}" %>
                         <% end %>
                     <% else %>
                         <%= link_to search_posts_path(params: {:q => {user_nickname_eq: comment.user.nickname}}), method: :post do %>
@@ -77,7 +77,7 @@
     </div>
     <div class="comment-f comment-container">
         <% if current_user.image.attached? %>
-            <%= image_tag "#{current_user.image}", class: "img-user", alt: "User:#{current_user.nickname}" %>
+            <%= image_tag current_user.image, class: "img-user", alt: "User:#{current_user.nickname}" %>
         <% else %>
             <%= image_tag "default.png", class: "img-user", alt: "User:#{current_user.nickname}" %>
         <% end %>

@@ -7,9 +7,10 @@
             <h1><a href="/"><%= image_tag "logo.png", class: "logo", alt: "Jowan" %></a></h1>
             <nav>
                 <ul class="main-nav">
-                    <li>test1</li>
-                    <li>test2</li>
-                    <li>test3</li>
+                    <li><a href="/posts"><i class="far fa-newspaper"></i>&nbsp;Articles</a></li>
+                    <li><a href="/posts/new"><i class="far fa-plus-square"></i>&nbsp;POST</a></li>
+                    <li><a href="/users/sign_out" data-method="delete"><i class="fas fa-running"></i>&nbsp;LogOut</a></li>
+                    
                 </ul>
             </nav>
         </header>
@@ -18,18 +19,99 @@
         </div>
     </div>
     <main>
-        <% if @user.image.attached? %>
-            <%= image_tag "#{@user.image}", class: "UserProfile-avatar", alt: "User:#{@user.nickname}" %>
-        <% else %>
-            <%= image_tag "default.png", class: "UserProfile-avatar", alt: "User:#{@user.nickname}" %>
-        <% end %>
-        <div class="p-info">
-            <%= form_for(@user, url: "/users/#{@user.id}", html: {method: "patch"}) do |f| %>
-                <%= f.label :nickname %>
-                <%= f.text_field :nickname %>
-                
-                <%= f.submit %>
+        <div class="UserProfile-container">
+            <input id="p-close" type="radio" name="p-edit" />
+            <input id="p-open" type="radio" name="p-edit" />
+            
+            <div class="profile-info">
+            <label for="p-open"><i class="fas fa-user-edit"></i>&nbsp;Edit</label>
+            <% if @user.image.attached? %>
+                <%= image_tag @user.image, class: "UserProfile-avatar", alt: "User:#{@user.nickname}" %>
+            <% else %>
+                <%= image_tag "default.png", class: "UserProfile-avatar", alt: "User:#{@user.nickname}" %>
             <% end %>
+            </div>
+            
+            <!--hidden-->
+            <div class="p-settings">
+                <label for="p-close"><i class="far fa-times-circle"></i>&nbsp;Close</label>
+                <%= form_for(@user, url: "/users/#{@user.id}", html: {method: "patch"}, class: "p-info") do |f| %>
+                    
+                    <div class="img-field">
+                        <%= f.label :image do %>
+                        <% if @user.image.attached? %>
+                            <%= image_tag @user.image, class: "UserProfile-avatar", alt: "User:#{@user.nickname}" %>
+                        <% else %>
+                            <%= image_tag "default.png", class: "UserProfile-avatar", alt: "User:#{@user.nickname}" %>
+                        <% end %>
+                        <% end %>
+                        <%= f.file_field :image %><br>
+                        <span style="color: #FF0461;"><i class="fas fa-exclamation-circle"></i>&nbsp;Uploading may take some time.</span>
+                    </div>
+                    
+                    <div>
+                        <div class="field">
+                            <%= f.label :nickname %>
+                            <%= f.text_field :nickname %>
+                        </div>
+                        
+                        <div class="field">
+                            <%= f.label :email %>
+                            <span style="color: #FF0461;"><i class="fas fa-exclamation-circle"></i>&nbsp;If it is changed, the confirmation email will be sent.</span><br>
+                            <%= f.email_field :email %>
+                        </div>
+                        
+                        <div class="field">
+                            <%= f.label :bio %>
+                            <%= f.text_area :bio %>
+                        </div>
+                    
+                        <%= button_tag(type: "submit", data: {confirm: "Do you update?"}, class: "submit-btn") do %>
+                            <i class="far fa-check-circle"></i>&nbsp;Update
+                        <% end %>
+                    
+                    </div>
+                <% end %>
+            </div>
+            
+            <input id="MyArticles" type="radio" name="show" checked="checked" style="display: none !important;" />
+            <input id="LikedArticles" type="radio" name="show" style="display: none !important;" />
+            <input id="CommentedArticles" type="radio" name="show" style="display: none !important;" />
+            
+            <ul class="articles-ls">
+                <li class="MyArticles"><label for="MyArticles"><i class="fas fa-user-edit"></i>&nbsp;My Articles</label></li>
+                <li class="LikedArticles"><label for="LikedArticles"><i class="fas fa-thumbs-up"></i>&nbsp;Liked Articles</label></li>
+                <li class="CommentedArticles"><label for="CommentedArticles"><i class="fas fa-comment"></i>&nbsp;Commented Articles</label></li>
+            </ul>
+            
+            <section>
+                <div id="hidden" class="MyArticles">
+                    <%= paginate @my_articles %>
+                    <% @my_articles.each do |post| %>
+                        <%= render partial: "user_articles", locals: {post: post} %>
+                    <% end %>
+                </div>
+                
+                <div id="hidden" class="LikedArticles">
+                    <%= paginate @liked_articles %>
+                    <% @liked_articles.each do |post| %>
+                        <%= render partial: "user_articles", locals: {post: post} %>
+                    <% end %>
+                </div>
+            
+                <div id="hidden" class="CommentedArticles">
+                    <%= paginate @commented_articles %>
+                    <% @commented_articles.each do |post| %>
+                       <%= render partial: "user_articles", locals: {post: post} %>
+                    <% end %>
+                </div>
+            </section>
+            
         </div>
     </main>
+    <footer>
+        <div class="wrapper">
+            <p><small>&copy; 2019 Jowan</small></p>
+        </div>
+    </footer>
 </body>

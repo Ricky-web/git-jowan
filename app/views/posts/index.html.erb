@@ -26,7 +26,7 @@
                     <div class="post-<%= post.user.id %> container separator">
                         <% if post.user.image.attached? %>
                             <%= link_to search_posts_path(params: {:q => {user_nickname_eq: post.user.nickname}}), method: :post do %>
-                                <%= image_tag "#{post.user.image}", class: "img-author", alt: "Author:#{post.user.nickname}" %>
+                                <%= image_tag post.user.image, class: "img-author", alt: "Author:#{post.user.nickname}" %>
                             <% end %>
                         <% else %>
                             <%= link_to search_posts_path(params: {:q => {user_nickname_eq: post.user.nickname}}), method: :post do %>
