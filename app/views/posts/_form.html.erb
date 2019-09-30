@@ -12,21 +12,23 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
+    <label for="post_title"></label>
+    <%= form.text_field :title, class: "post-title", placeholder: "Title", autofocus: true %>
   </div>
   
   <div class="field">
-    <%= form.label :currency_pair, 'Currency Pair' %>
-    <%= form.select :currency_pair, ["USDJPY", "GBPJPY", "EURJPY", "AUDJPY", "NZDJPY", "CADJPY", "CHFJPY", "HKDJPY", "ZARJPY", "GBPUSD", "EURUSD", "AUDUSD", "NZDUSD"], :prompt => "Select" %>
+    <label for="post_currency_pair" class="caret-down"></label>
+    <%= form.select :currency_pair, ["USDJPY", "GBPJPY", "EURJPY", "AUDJPY", "NZDJPY", "CADJPY", "CHFJPY", "HKDJPY", "ZARJPY", "GBPUSD", "EURUSD", "AUDUSD", "NZDUSD"], :prompt => "Select Currency Pair" %>
   </div>
   
   <div class="field">
-    <%= form.label :content %>
+    <label for="post_content"></label>
     <%= form.rich_text_area :content %>
   </div>
   
   <div class="actions">
-    <%= form.submit 'Create' %>
+    <%= button_tag(type: "submit") do %>
+     <i class="far fa-plus-square"></i>&nbsp;Create
+    <% end %>
   </div>
 <% end %>

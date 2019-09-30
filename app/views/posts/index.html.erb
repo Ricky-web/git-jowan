@@ -2,20 +2,20 @@
     <title>Jowan - Articles</title>
 </head>
 <body>
-    <div id="articles" class="big-bg">
-        <header class="page-header wrapper">
-            <h1><a href="/"><%= image_tag 'logo.png', alt: "Jowan", class: "logo" %></a></h1>
+    <div id="articles" class="big--bg">
+        <header class="big__pageHeader">
+            <h1><a href="/"><%= image_tag 'logo.png', alt: "Jowan", class: "big__pageHeader__imgLogo" %></a></h1>
             <nav>
                 <p class="alert"><%= alert %></p>
-                <ul class="main-nav">
+                <ul class="big__pageHeader__mainNav">
                     <li><a href="/posts/new" data-method="get"><i class="far fa-plus-square"></i>&nbsp;POST</a></li>
                     <li><a href="/users/<%= current_user.id %>"><i class="fas fa-user-circle"></i>&nbsp;MyPage</a></li>
                     <li><a href="/users/sign_out" data-method="delete"><i class="fas fa-running"></i>&nbsp;LogOut</a></li>
                 </ul>
             </nav>
         </header>
-        <div class="wrapper">
-            <h2 class="page-title"><a href="/posts">Articles</a></h2>
+        <div class="big__pageContent wrapper">
+            <h2 class="big__pageContent__pageTitle"><a href="/posts">Articles</a></h2>
         </div>
     </div>
     <div class="articles-contents wrapper">
@@ -23,7 +23,7 @@
             <%= paginate @posts %>
             <% if @posts.present? %>
                 <% @posts.each do |post| %>
-                    <div class="post-<%= post.user.id %> container separator">
+                    <div class="post-<%= post.user.id %> container sLine">
                         <% if post.user.image.attached? %>
                             <%= link_to search_posts_path(params: {:q => {user_nickname_eq: post.user.nickname}}), method: :post do %>
                                 <%= image_tag post.user.image, class: "img-author", alt: "Author:#{post.user.nickname}" %>
@@ -93,7 +93,9 @@
                     <%= f.datetime_field :updated_at_lteq %>
                 </div>
                 
-                <%= f.submit 'Search' %>
+                <%= button_tag(type: "submit") do %>
+                    <i class="fas fa-search"></i>&nbsp;Search
+                <% end %>
             <% end %>
             <h3 class="sub-title">お店について</h3>
             <p>

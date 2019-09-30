@@ -2,38 +2,37 @@
     <title>Jowan</title>
 </head>
 <body>
-    <div id="home" class="big-bg">
+    <div id="home" class="big--bg">
     
-        <header class="page-header wrapper">
-            <h1><a href="#"><%= image_tag 'logo.png', alt: "Jowan", class: "logo" %></a></h1>
+        <header class="big__pageHeader wrapper">
+            <h1><a href="#"><%= image_tag 'logo.png', alt: "Jowan", class: "big__pageHeader__imgLogo" %></a></h1>
             <nav>
                 <p class="alert"><%= alert %></p>
-                <ul class="main-nav">
+                <ul class="big__pageHeader__mainNav">
                     <li><a href="users/sign_in"><i class="fas fa-sign-in-alt"></i>&nbsp;SignIn</a></li>
                     <li><a href="users/sign_up"><i class="fas fa-user-plus"></i>&nbsp;SginUp</a></li>
                 </ul>
             </nav>
         </header>
         
-        <div class="home-content wrapper">
-            <h2 class="page-title fadeIn">Welcome to Jowan!</h2>
-            <p class="fadeIn">
+        <div class="big__homeContent wrapper">
+            <h2 class="big__homeContent__pageTitle">Welcome to Jowan!</h2>
+            <p class="big__homeContent__ov">
                 Jowan is specialized sharing platform for FX. Share your valuable information!
             </p>
-            <div class="separator fadeIn"></div>
-            <%= link_to 'View articles >>', posts_path, method: :get, class: "btn fadeIn-delay" %>
-            
+            <div class="big__homeContent__sLine sLine"></div>
+            <%= link_to 'View articles >>', posts_path, method: :get, class: "big_homeContent_btn" %>
         </div>
     
     </div>
     
-    <section class="daily-ranks">
-        <h3><i class="fas fa-chart-line"></i>&nbsp;Daily Ranks: <%= Date.today.strftime("%d %B, %Y") %></h3>
-        <time datetime="<%= Time.current.strftime("%FT%T%z") %>"><i class="fas fa-history"></i>&nbsp;<%= DateTime.current.strftime("%a, %d %b %Y %X %Z") %></time>
+    <section class="dailyRanks">
+        <h3 class="dailyRanks__title"><i class="fas fa-chart-line"></i>&nbsp;Daily Ranks: <%= Date.today.strftime("%d %B, %Y") %></h3>
+        <time class="dailyRanks__updatedDateTime" datetime="<%= Time.current.strftime("%FT%T%z") %>"><i class="fas fa-history"></i>&nbsp;<%= DateTime.current.strftime("%a, %d %b %Y %X %Z") %></time>
         <% if @ranks.present? %>
             <% @ranks.each.with_index(1) do |post, i| %>
-                <div class="post-content separator">
-                    <div class="rank-number">
+                <div class="dailyRanks__articles sLine">
+                    <div class="dailyRanks__rankNo rankNo">
                         <span class="number number-<%= i %>"><%= i %></span>
                     </div>
                     <% if post.user.image.attached? %>
@@ -48,7 +47,6 @@
                             <span class="like-count"><i class="far fa-thumbs-up">&nbsp;<%= post.likes.count %></i></span>
                         </div>
                     </div>
-                    
                 </div>
             <% end %>
         <% else %>

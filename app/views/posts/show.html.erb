@@ -2,23 +2,23 @@
     <title>Jowan - <%= @post.title %></title>
 </head>
 <body>
-    <div id="show" class="big-bg">
-        <header class="page-header wrapper">
-            <h1><a href="/"><%= image_tag 'logo.png', class: "logo", alt: "Jowan" %></a></h1>
+    <div id="show" class="big--bg">
+        <header class="big__pageHeader">
+            <h1><a href="/"><%= image_tag 'logo.png', class: "big__pageHeader__imgLogo", alt: "Jowan" %></a></h1>
             <nav>
-                <ul class="main-nav">
+                <ul class="big__pageHeader__mainNav">
                     <li><a href="/posts" data-method="get"><i class="far fa-newspaper"></i>&nbsp;Artcles</a></li>
                     <li><a href="/posts/new" data-method="get"><i class="far fa-plus-square"></i>&nbsp;POST</a></li>
                     <li><a href="/users/sign_out" data-method="delete"><i class="fas fa-running"></i>&nbsp;LogOut</a></li>
                 </ul>
             </nav>
         </header>
-        <div class="wrapper">
-            <h2 class="page-title"><%= link_to "#{@post.currency_pair}", search_posts_path(params: {:q => {currency_pair_eq: @post.currency_pair}}), method: :post %></h2>
+        <div class="big__pageContent wrapper">
+            <h2 class="big__pageContent__pageTitle"><%= link_to "#{@post.currency_pair}", search_posts_path(params: {:q => {currency_pair_eq: @post.currency_pair}}), method: :post %></h2>
         </div>
     </div>
     <main>
-        <article class="separator">
+        <article class="sLine">
             <header class="post-info">
                 <% if @post.user.image.attached? %>
                     <%= link_to search_posts_path(params: {:q => {user_nickname_eq: @post.user.image}}), method: :post do %>

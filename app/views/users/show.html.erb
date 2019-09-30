@@ -2,116 +2,122 @@
     <title>Jowan - <%= @user.nickname %></title>
 </head>
 <body>
-    <div id="show" class="big-bg">
-        <header class="page-header wrapper">
-            <h1><a href="/"><%= image_tag "logo.png", class: "logo", alt: "Jowan" %></a></h1>
+    <div id="show" class="big--bg">
+        <header class="big__pageHeader">
+            <h1><a href="/"><%= image_tag "logo.png", class: "big__pageHeader__imgLogo", alt: "Jowan" %></a></h1>
             <nav>
-                <ul class="main-nav">
+                <ul class="big__pageHeader__mainNav">
                     <li><a href="/posts"><i class="far fa-newspaper"></i>&nbsp;Articles</a></li>
                     <li><a href="/posts/new"><i class="far fa-plus-square"></i>&nbsp;POST</a></li>
                     <li><a href="/users/sign_out" data-method="delete"><i class="fas fa-running"></i>&nbsp;LogOut</a></li>
-                    
                 </ul>
             </nav>
         </header>
-        <div class="wrapper">
-            <h2 class="page-title">My Page</h2>
+        <div class="big__pageContent wrapper">
+            <h2 class="big__pageContent__pageTitle">My Page</h2>
         </div>
     </div>
-    <main>
-        <div class="UserProfile-container">
-            <input id="p-close" type="radio" name="p-edit" />
-            <input id="p-open" type="radio" name="p-edit" />
-            
-            <div class="profile-info">
-            <label for="p-open"><i class="fas fa-user-edit"></i>&nbsp;Edit</label>
+    <div class="showUserProfile--flex wrapper">
+        <aside class="showUserProfile__info">
             <% if @user.image.attached? %>
-                <%= image_tag @user.image, class: "UserProfile-avatar", alt: "User:#{@user.nickname}" %>
+                <%= image_tag @user.image, class: "showUserProfile__info__avatar", alt: "User:#{@user.nickname}" %>
             <% else %>
-                <%= image_tag "default.png", class: "UserProfile-avatar", alt: "User:#{@user.nickname}" %>
+                <%= image_tag "default.png", class: "showUserProfile__info__avatar", alt: "User:#{@user.nickname}" %>
             <% end %>
+            <h3 class="showUserProfile__info__fullName sLine"><%= @user.nickname %></h3>
+            <div class="showUserProfile__info__bio sLine"><%= simple_format @user.bio %></div>
+            <div class="showUserProfile__info__popularArticles">
+                <h3 class="headTitle"><i class="far fa-star"></i>&nbsp;Popular Articles by <%= @user.nickname %></h3>
+                <% if @my_articles_best.present? %>
+                    <% @my_articles_best.each do |post| %>
+                        <div class="showUserProfile__info__popularArticles__container flexContainer">
+                            <span class="showUserProfile__info__popularArticles__container__like">
+                                <i class="far fa-thumbs-up"></i>&nbsp;<%= post.likes.count %>
+
+                            <div class="showUserProfile__info__popularArticles__container__currencyPair">
+                                <%= image_tag "#{post.currency_pair[0, 3]}.png", class: "currency", alt:"#{post.currency_pair[0, 3]}" %>
+                                <%= image_tag "#{post.currency_pair[3, 6]}.png", class: "marginCurrency", alt: "#{post.currency_pair[3, 6]}" %>
+                            </div>
+                            
+                            </span>
+                            <div>
+                                <h4 class="showUserProfile__info__popularArticles__container__postTitle"><a href="/posts/<%= post.id %>"><%= post.title %></a></h4>
+                                <time class="showUserProfile__info__popularArticles__container__cdt" datetime="<%= post.created_at.strftime("%FT%T%z") %>"><i class="far fa-clock"></i>&nbsp;<%= post.created_at.strftime("%a, %d %b %Y %X %Z") %></time>
+                            </div>
+                        </div>
+                    <% end %>
+                <% end %>
             </div>
+        </aside>
+        <section class="showUserProfile__articles">
             
-            <!--hidden-->
-            <div class="p-settings">
-                <label for="p-close"><i class="far fa-times-circle"></i>&nbsp;Close</label>
-                <%= form_for(@user, url: "/users/#{@user.id}", html: {method: "patch"}, class: "p-info") do |f| %>
-                    
-                    <div class="img-field">
-                        <%= f.label :image do %>
-                        <% if @user.image.attached? %>
-                            <%= image_tag @user.image, class: "UserProfile-avatar", alt: "User:#{@user.nickname}" %>
-                        <% else %>
-                            <%= image_tag "default.png", class: "UserProfile-avatar", alt: "User:#{@user.nickname}" %>
-                        <% end %>
-                        <% end %>
-                        <%= f.file_field :image %><br>
-                        <span style="color: #FF0461;"><i class="fas fa-exclamation-circle"></i>&nbsp;Uploading may take some time.</span>
-                    </div>
-                    
-                    <div>
-                        <div class="field">
-                            <%= f.label :nickname %>
-                            <%= f.text_field :nickname %>
+            <div class="showUserProfile__articles__portfolio flexContainer">
+                <% if @my_articles_portfolio.present? %>
+                    <% @my_articles_portfolio.each do |k, v| %>
+                        <div class="showUserProfile__articles__portfolio__allotment" style="width: <%= v %>%; background: rgb(<%= @r_color_range.sample %>, <%= @g_color_range.sample %>, <%= @b_color_range.sample %>, 0.5);">
+                            <span class="allotmentRate"><%= v.round(2) %>%</span>
+                            <div class="showUserProfile__articles__portfolio__allotment__hiddenField">
+                                <%= image_tag "#{k[0, 3]}.png", class: "currency", alt: "#{k[0, 3]}" %>
+                                <%= image_tag "#{k[3, 6]}.png", class: "marginCurrency", alt: "#{k[3, 6]}" %>
+                                <span class="currencyPair"><%= k %></span>
+                            </div>
                         </div>
-                        
-                        <div class="field">
-                            <%= f.label :email %>
-                            <span style="color: #FF0461;"><i class="fas fa-exclamation-circle"></i>&nbsp;If it is changed, the confirmation email will be sent.</span><br>
-                            <%= f.email_field :email %>
-                        </div>
-                        
-                        <div class="field">
-                            <%= f.label :bio %>
-                            <%= f.text_area :bio %>
-                        </div>
-                    
-                        <%= button_tag(type: "submit", data: {confirm: "Do you update?"}, class: "submit-btn") do %>
-                            <i class="far fa-check-circle"></i>&nbsp;Update
-                        <% end %>
-                    
-                    </div>
+                    <% end %>
                 <% end %>
             </div>
             
-            <input id="MyArticles" type="radio" name="show" checked="checked" style="display: none !important;" />
-            <input id="LikedArticles" type="radio" name="show" style="display: none !important;" />
-            <input id="CommentedArticles" type="radio" name="show" style="display: none !important;" />
+            <input id="myArticles" type="radio" checked="checked" name="show" style="display: none; !important" />
+            <input id="commentedArticles" type="radio" name="show" style="display: none !important;" />
+            <input id="likedArticles" type="radio" name="show" style="display: none !important;" />
             
-            <ul class="articles-ls">
-                <li class="MyArticles"><label for="MyArticles"><i class="fas fa-user-edit"></i>&nbsp;My Articles</label></li>
-                <li class="LikedArticles"><label for="LikedArticles"><i class="fas fa-thumbs-up"></i>&nbsp;Liked Articles</label></li>
-                <li class="CommentedArticles"><label for="CommentedArticles"><i class="fas fa-comment"></i>&nbsp;Commented Articles</label></li>
+            <ul class="showUserProfile__articles__ls">
+                <li class="myArticles">
+                    <label for="myArticles">
+                        <i class="fas fa-user-edit"></i>&nbsp;My Articles
+                        <span class="articlesCount"><%= @my_articles.count %>&nbsp;articles</span>
+                    </label>
+                </li>
+                <li class="commentedArticles">
+                    <label for="commentedArticles">
+                        <i class="fas fa-thumbs-up"></i>&nbsp;Liked Articles
+                        <span class="articlesCount"><%= @commented_articles.count %>&nbsp;articles</span>
+                    </label>
+                    
+                </li>
+                <li class="likedArticles">
+                    <label for="likedArticles">
+                        <i class="fas fa-comment"></i>&nbsp;Commented Articles
+                        <span class="articlesCount"><%= @liked_articles.count %>&nbsp;articles</span>
+                    </label>
+                    
+                </li>
             </ul>
             
-            <section>
-                <div id="hidden" class="MyArticles">
-                    <%= paginate @my_articles %>
-                    <% @my_articles.each do |post| %>
-                        <%= render partial: "user_articles", locals: {post: post} %>
-                    <% end %>
-                </div>
-                
-                <div id="hidden" class="LikedArticles">
-                    <%= paginate @liked_articles %>
-                    <% @liked_articles.each do |post| %>
-                        <%= render partial: "user_articles", locals: {post: post} %>
-                    <% end %>
-                </div>
+            <div id="div--hidden" class="showUserProfile__articles__myArticles">
+                <% @my_articles.each do |post| %>
+                    <%= render partial: "user_articles", locals: {post: post} %>
+                <% end %>
+            </div>
             
-                <div id="hidden" class="CommentedArticles">
-                    <%= paginate @commented_articles %>
-                    <% @commented_articles.each do |post| %>
-                       <%= render partial: "user_articles", locals: {post: post} %>
-                    <% end %>
-                </div>
-            </section>
+            <div id="div--hidden" class="showUserProfile__articles__commentedArticles">
+                <!--<%= paginate @commented_articles %>-->
+                <% @commented_articles.each do |post| %>
+                    <%= render partial: "user_articles", locals: {post: post} %>
+                <% end %>
+                <!--<%= paginate @commented_articles %>-->
+            </div>
             
-        </div>
-    </main>
+            <div id="div--hidden" class="showUserProfile__articles__likedArticles">
+                <!--<%= paginate @liked_articles %>-->
+                <% @liked_articles.each do |post| %>
+                    <%= render partial: "user_articles", locals: {post: post} %>
+                <% end %>
+                <!--<%= paginate @liked_articles %>-->
+            </div>
+            
+        </section>
+    </div>
     <footer>
-        <div class="wrapper">
-            <p><small>&copy; 2019 Jowan</small></p>
-        </div>
+        <p><small>&copy; 2019 Jowan</small></p>
     </footer>
 </body>

@@ -1,0 +1,70 @@
+<head>
+    <title>Jowan - <%= @user.nickname %> profile</title>
+</head>
+<body>
+    <div id="show" class="big-bg">
+        <header class="page-header wrapper">
+            <h1><a href="/"><%= image_tag "logo.png", class: "logo", alt: "Jowan" %></a></h1>
+            <nav>
+                <ul class="main-nav">
+                    <li><a href="/posts"><i class="far fa-newspaper"></i>&nbsp;Articles</a></li>
+                    <li><a href="/posts/new"><i class="far fa-plus-square"></i>&nbsp;POST</a></li>
+                    <li><a href="/users/sign_out" data-method="delete"><i class="fas fa-running"></i>&nbsp;LogOut</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="wrapper">
+            <h2 class="page-title">My Page</h2>
+        </div>
+    </div>
+    <div class="flex wrapper">
+        <aside class="UserProfile">
+            <% if @user.image.attached? %>
+                <%= image_tag @user.image, class: "img-avatar", alt: "User:#{@user.nickname}" %>
+            <% else %>
+                <%= image_tag "default.png", class: "img-avatar", alt: "User:#{@user.nickname}" %>
+            <% end %>
+            <%= @user.nickname %>
+        </aside>
+        <main>
+            <section class="articles">
+                
+                <input id="MyArticles" type="radio" name="show" checked="checked" style="display: none !important;" />
+                <input id="LikedArticles" type="radio" name="show" style="display: none !important;" />
+                <input id="CommentedArticles" type="radio" name="show" style="display: none !important;" />
+                
+                <ul class="articles-ls">
+                    <li class="MyArticles"><label for="MyArticles"><i class="fas fa-user-edit"></i>&nbsp;My Articles</label></li>
+                    <li class="LikedArticles"><label for="LikedArticles"><i class="fas fa-thumbs-up"></i>&nbsp;Liked Articles</label></li>
+                    <li class="CommentedArticles"><label for="CommentedArticles"><i class="fas fa-comment"></i>&nbsp;Commented Articles</label></li>
+                </ul>
+                
+                <div id="hidden" class="MyArticles">
+                    <%= paginate @my_articles %>
+                    <% @my_articles.each do |post| %>
+                        <%= render partial: "user_articles", locals: {post: post} %>
+                    <% end %>
+                </div>
+                
+                <div id="hidden" class="LikedArticles">
+                    <%= paginate @liked_articles %>
+                    <% @liked_articles.each do |post| %>
+                        <%= render partial: "user_articles", locals: {post: post} %>
+                    <% end %>
+                </div>
+                
+                <div id="hidden" class="CommentedArticles">
+                    <%= paginate @commented_articles %>
+                    <% @commented_articles.each do |post| %>
+                        <%= render partial: "user_articles", locals: {post: post} %>
+                    <% end %>
+                </div>
+            </section>
+        </main>
+    </div>
+    <footer>
+        <div class="wrapper">
+            <p><small>&copy; 2019 Jowan</small></p>
+        </div>
+    </footer>
+</body>
