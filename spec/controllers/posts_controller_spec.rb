@@ -33,11 +33,10 @@ describe PostsController do
             get :index
             
             # Our side
-            expect(assigns(:posts)).to match(posts)
+            expect(assigns(:posts)).to match(posts.sort{ |a, b| b.created_at <=> a.created_at })
         end
         
         it "renders the :index template" do
-            posts = crate_list(:post, 3)
             get :index
             
             # Our side
