@@ -33,7 +33,7 @@ describe PostsController do
             get :index
             
             # Our side
-            expect(assigns(:posts)).to match(posts.sort{ |a, b| b.created_at <=> a.created_at })
+            expect(assigns(:posts)).to match(posts.sort{ |a, b| b.updated_at <=> a.updated_at })
         end
         
         it "renders the :index template" do

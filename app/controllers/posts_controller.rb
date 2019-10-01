@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
-  before_action :ranks, only: [:top]
+  # before_action :set_post, only: [:show, :edit, :update, :destroy]
+  # before_action :ranks, only: [:top]
 
   # GET /posts
   # GET /posts.json
@@ -9,7 +9,6 @@ class PostsController < ApplicationController
     posts = @q.result.order('updated_at DESC').includes(:user)
     @posts = posts.page(params[:page]).per(10)
     @posts_count = posts.count
-    # @posts = Post.order('updated_at DESC').includes(:user).page(params[:page]).per(10)
     now = Time.current
     @ten_minutes_ago = now.ago(10.minutes)
   end

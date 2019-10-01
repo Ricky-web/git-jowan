@@ -57,10 +57,10 @@ gem 'devise'
 gem 'pry-rails'
 gem 'kaminari'
 gem 'ransack', github: 'activerecord-hackery/ransack'
-gem 'rspec-rails'
+gem 'rspec-rails', github: 'rspec/rspec-rails', branch: '4-0-dev' 
 gem 'rails-controller-testing'
 gem 'factory_bot_rails'
 
 group :test do
-  gem 'faker'
+  gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
 end
