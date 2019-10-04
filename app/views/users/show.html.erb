@@ -24,8 +24,21 @@
             <% else %>
                 <%= image_tag "default.png", class: "showUserProfile__info__avatar", alt: "User:#{@user.nickname}" %>
             <% end %>
-            <h3 class="showUserProfile__info__fullName sLine"><%= @user.nickname %></h3>
-            <div class="showUserProfile__info__bio sLine"><%= simple_format @user.bio %></div>
+            <h3 class="showUserProfile__info__fullName sLine">
+                <%= @user.nickname %><br>
+                <% if current_user.id == @user.id %>
+                    <%= link_to edit_user_registration_path, method: :get do %>
+                        <span class="userSettingBtn"><i class="fas fa-user-edit"></i>&nbsp;Edit</span>
+                    <% end %>
+                <% end %>
+            </h3>
+            <div class="showUserProfile__info__bio sLine">
+                <% if @user.bio.present? %>
+                    <%= simple_format @user.bio %>
+                <% else %>
+                    <p>No bio yet.</p>
+                <% end %>
+            </div>
             <div class="showUserProfile__info__popularArticles">
                 <h3 class="headTitle"><i class="far fa-star"></i>&nbsp;Popular Articles by <%= @user.nickname %></h3>
                 <% if @my_articles_best.present? %>
@@ -41,11 +54,19 @@
                             
                             </span>
                             <div>
-                                <h4 class="showUserProfile__info__popularArticles__container__postTitle"><a href="/posts/<%= post.id %>"><%= post.title %></a></h4>
+                                <h4 class="showUserProfile__info__popularArticles__container__postTitle">
+                                    <% if current_user.already_watched?(post) %>
+                                        <a href="/posts/<%= post.id %>"><%= post.title %></a>
+                                    <% else %>
+                                        <a href="/posts/#{post.id}/views" data-method="post"><%= post.title %></a>
+                                    <% end %>
+                                </h4>
                                 <time class="showUserProfile__info__popularArticles__container__cdt" datetime="<%= post.created_at.strftime("%FT%T%z") %>"><i class="far fa-clock"></i>&nbsp;<%= post.created_at.strftime("%a, %d %b %Y %X %Z") %></time>
                             </div>
                         </div>
                     <% end %>
+                <% else %>
+                    <p>No best articles yet.</p>
                 <% end %>
             </div>
         </aside>
@@ -54,14 +75,16 @@
             <div class="showUserProfile__articles__portfolio flexContainer">
                 <% if @my_articles_portfolio.present? %>
                     <% @my_articles_portfolio.each do |k, v| %>
-                        <div class="showUserProfile__articles__portfolio__allotment" style="width: <%= v %>%; background: rgb(<%= @r_color_range.sample %>, <%= @g_color_range.sample %>, <%= @b_color_range.sample %>, 0.5);">
+                        <%= link_to search_posts_path(params: {:q => {currency_pair_eq: k, user_nickname_eq: @user.nickname}}), method: :get, class: "showUserProfile__articles__portfolio__allotment", style: "width: #{v}%; background: rgba(#{@r_color_range.sample}, #{@g_color_range.sample}, #{@b_color_range.sample}, 0.5);" do %>
                             <span class="allotmentRate"><%= v.round(2) %>%</span>
-                            <div class="showUserProfile__articles__portfolio__allotment__hiddenField">
-                                <%= image_tag "#{k[0, 3]}.png", class: "currency", alt: "#{k[0, 3]}" %>
-                                <%= image_tag "#{k[3, 6]}.png", class: "marginCurrency", alt: "#{k[3, 6]}" %>
-                                <span class="currencyPair"><%= k %></span>
+                            <div class="showUserProfile__articles__portfolio__allotment__hiddenField flexContainer">
+                                <div class="currencyPairFixBox">
+                                    <%= image_tag "#{k[0, 3]}.png", class: "currency", alt: "#{k[0, 3]}" %>
+                                    <%= image_tag "#{k[3, 6]}.png", class: "marginCurrency", alt: "#{k[3, 6]}" %>
+                                </div>
+                                <p class="currencyPair"><%= k %></p>
                             </div>
-                        </div>
+                        <% end %>
                     <% end %>
                 <% end %>
             </div>

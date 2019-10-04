@@ -43,13 +43,15 @@ html {
         }
         
         #articles, #show {
+            transition: background-color 0.3s ease 0s;
+            
             &:hover {
                 transition: background-color 0.3s ease 0s;
                 background-color: #222222;
                 background-image: none;
 
                 .big__pageHeader {
-                    // transition: background-color 0.2s ease 0s;
+                    transition: background-color 0.3s ease 0s;
                     background-color: #FFF;
                 }
                 
@@ -76,6 +78,7 @@ html {
                 justify-content: space-between;
                 -webkit-justify-content: space-between;
                 -moz-justify-content: space-between;
+                transition: background-color 0.3s ease 0s;
             }
             
             &__pageHeader__imgLogo {
@@ -135,6 +138,7 @@ html {
                 font-family: 'Times New Roman' !important;
                 font-weight: normal;
                 text-align: center;
+                transition: color 0.3s ease 0s;
             }
         }
         
@@ -354,7 +358,8 @@ html {
 }
 
 #articles {
-    background-image: image-url("articles-bg.png");
+    // background-image: image-url("articles-bg.png");
+    background-image: image-url("index.jpg");
     background-color: #F8F8FF;
     background-blend-mode: overlay;
     height: 270px;
@@ -362,9 +367,9 @@ html {
 }
 
 #show {
-    background-image: image-url("show.png");
-    background-color: rgba(255,255,255,.9);
+    background-image: image-url("myPage.jpg");
     background-color: #EEEEEE;
+    background-color: rgba(255, 255, 255, 0.6);
     background-blend-mode: overlay;
     height: 270px;
     margin-bottom: 40px;
@@ -883,6 +888,19 @@ div.comment-f {
             font-size: 1.425rem;
             font-family: inherit;
             text-align: center;
+            
+            .userSettingBtn {
+                display: inline-block;
+                margin-top: 0.5rem;
+                font-size: 0.8rem;
+                font-weight: normal;
+                color: #BBBBBB;
+                transition: color 0.3s ease 0s;
+                &:hover {
+                    transition: color 0.3s ease 0s;
+                    color: #000077;
+                }
+            }
         }
         
         .showUserProfile__info__bio {
@@ -1020,9 +1038,10 @@ div.comment-f {
                 margin-left: calc(50px + 1em);
                 font-size: 1rem;
                 font-weight: normal;
-                
+
                 a {
                     display: block;
+                    color: #337ab7;
                 }
             }
             
@@ -1087,42 +1106,232 @@ div.comment-f {
         }
         
         &__portfolio {
-            margin-bottom: 40px;
-            line-height: 3.5;
-            border: 1px black solid;
+            display: block;
+            margin: 20px 0 40px 0;
 
             &__allotment {
-                padding: 0.1em;
-                border: 1px white solid;
+                height: 7em;
+                border: 1px #FFF solid;
+                border-radius: 4px;
                 text-align: center;
+                color: #000 !important;
                 cursor: hand;
                 cursor: pointer;
                 overflow: hidden;
+                transition: width 0.5s linear 0s, height 0.5s linear 0s;
+                
                 &:hover {
-                    transition: width 0.4s linear 0s, height 0.4s linear 0.4s;
+                    transition: width 0.5s linear 0s;
                     width: 100% !important;
+
+                    .allotmentRate {
+                        transition: line-height 0.5s linear 0s;
+                        line-height: 3.5 !important;
+                    }
+                    
                     .showUserProfile__articles__portfolio__allotment__hiddenField {
-                        display: block;
+                        transition: visibility 0.5s linear 0.4s;
+                        visibility: visible;
+                        overflow: visible;
+
+                        animation-name: fadeIn;
+                        animation-duration: 0.8s;
+                        animation-timing-function: linear;
+                        animation-delay: 0.4s;
+                        
+                        @keyframes fadeIn {
+                            0% {
+                                opacity: 0;
+                            }
+                            
+                            100% {
+                                opacity: 1;
+                            }
+                        }
                     }
                 }
                 
                 &__hiddenField {
-                    display: none;
+                    visibility: hidden;
+                    overflow: hidden;
+                    justify-content: center;
+                    -webkit-justify-content: center;
+                    -moz-justify-content: center;
+                    
+                    .currencyPairFixBox {
+                        width: 27px;
+                        height: 20px;
+                        position: relative;
+                    }
 
                     .currency, .marginCurrency {
-                        width: 25px;
+                        width: 27px;
                         height: 20px;
-                        border: 0.3px gray solid;
+                        object-fit: cover;
+                    }
+                    
+                    .currency {
+                        position: absolute;
+                        top: -6.67px;
+                        left: -9px;
                     }
                     
                     .marginCurrency {
-                        bottom: -10px;
+                        position: absolute;
+                        bottom: -6.67px;
+                        right: -9px;
+                    }
+                    
+                    .currencyPair {
+                        display: inline-block;
+                        margin: 0;
+                        margin-left: calc(9px + 0.5em);
+                        line-height: 20px;
                     }
                 }
                 
                 .allotmentRate {
+                    display: block;
+                    line-height: 7;
                     color: #000;
+                    transition: line-height 0.5s linear 0s;
                 }
+            }
+        }
+    }
+}
+
+.editUserProfile {
+    width: 40%;
+    margin: 0 auto;
+
+    header {
+        margin-bottom: 20px;
+        h1 {
+            text-align: center;
+            img.logo {
+                width: 20%;
+            }
+        }
+    }
+    
+    &__pageTitle {
+        font-size: 1.5rem;
+        font-weight: normal;
+        font-family: 'Times New Loman';
+        text-align: center;
+    }
+    
+    .field {
+        margin: 15px 0;
+        background: rgb(245, 248, 250);
+        
+        label {
+            padding-top: 0.4em;
+            border-radius: 3px;
+            
+            span {
+                display: block;
+                margin-left: 0.4em;
+                color: #666666;
+                
+                em {
+                    color: red;
+                }
+            }
+        }
+        
+        .editUserProfile {
+            &__nickname,
+            &__bio,
+            &__email,
+            &__pw,
+            &__pwConfirmation,
+            &__currentPW {
+                width: calc(100% - 0.8em);
+                padding: 0.5em 0.4em;
+                border: none;
+                border-bottom: 2px #999999 solid;
+                outline: none;
+                background: rgb(245, 248, 250);
+                font-size: 1rem;
+                transition: border-color 0.3s linear ;
+                
+                &:focus {
+                    transition: border-color 0.3s linear;
+                    border-color: #0bd;
+                }
+            }
+            
+            &__bio {
+                line-height: 1.2;
+                height: calc(1.2em * 10);
+                resize: none;
+            }
+        }
+
+        .editUserProfile__avatar {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto;
+            border-radius: 50%;
+            object-fit: cover
+        }
+    }
+    
+    .actions {
+        button.submit {
+            width: 100%;
+            line-height: 2.5;
+            margin: 10px auto 20px;
+            border: none;
+            border-radius: 3px;
+            outline: none;
+            background: #00478d;
+            color: #FFF;
+            font-size: 1rem;
+            font-weight: normal;
+            cursor: hand;
+            cursor: pointer;
+            transition: background 0.3s linear 0s;
+            &:hover {
+                transition: background 0.3s linear 0s;
+                background: #0bd;
+            }
+        }
+    }
+    
+    h3 {
+        font-weight: normal;
+        font-family: 'Times New Roman';
+        text-align: center;
+    }
+    
+    p {
+        text-align: center;
+        
+        em {
+            color: red;
+        }
+        
+        button {
+            width: 100%;
+            line-height: 2.5;
+            margin: 0.5em auto 20px;
+            border: none;
+            border-radius: 3px;
+            outline: none;
+            background: #550000;
+            transition: background 0.3s ease 0s;
+            &:hover {
+                transition: background 0.3s ease 0s;
+                background: #BB0000;
+            }
+            
+            a {
+                display: block;
+                padding: 0.5em 0.4em;
+                color: #FFF;
             }
         }
     }

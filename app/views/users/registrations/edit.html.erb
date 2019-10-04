@@ -1,58 +1,98 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :image %>
-    <%= f.file_field :image %>
-    <% if current_user.image.attached? %>
-      <%= image_tag current_user.image %>
-    <% else %>
-      <%= image_tag 'default.png' %>
+<head>
+  <title>Jowan - Edit <%= current_user.nickname %>'s profile</title>
+</head>
+<body>
+  <div class="editUserProfile">
+    <header>
+      <h1><a href="/"><%= image_tag "logo.png", class: "logo", alt: "Jowan" %></a></h1>
+    </header>
+    <h2 class="editUserProfile__pageTitle">Edit my profile</h2>
+    
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+    
+      <div class="field">
+        <label for="user_image">
+          <span><i class="far fa-user-circle"></i>&nbsp;Avatar</span>
+          <% if current_user.image.attached? %>
+            <%= image_tag current_user.image, class: "editUserProfile__avatar", alt: "User:#{current_user.nickname}" %>
+          <% else %>
+            <%= image_tag 'default.png', class: "editUserProfile__avatar", alt: "User:#{current_user.nickname}" %>
+          <% end %>
+          </label>
+          <%= f.file_field :image %>
+      </div>
+    
+      <div class="field">
+        <label for="user_nickname"><span><i class="far fa-user"></i>&nbsp;Name</span></label>
+          <%= f.text_field :nickname, class: "editUserProfile__nickname", placeholder: "Nickname", maxlength: 10 %>
+      </div>
+      
+      <div class="field">
+        <label for="user_bio"><span><i class="far fa-address-card"></i>&nbsp;Bio</span></label>
+          <%= f.text_area :bio, class: "editUserProfile__bio", placeholder: "Add your bio" %>
+      </div>
+    
+      <div class="field">
+        <label for="user_email">
+          <span>
+            <i class="far fa-envelope"></i>&nbsp;Email address<br>
+            <em><i class="fas fa-exclamation-circle"></i>&nbsp;Already registraterd email is invalid</em>
+          </span>
+        </label>
+          <%= f.email_field :email, class: "editUserProfile__email", placeholder: "Add your email" %>
+      </div>
+    
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+      <% end %>
+    
+      <div class="field">
+        <label for="user_password">
+          <span>
+            <i class="fas fa-key"></i>&nbsp;New password<br>
+            <% if @minimum_password_length %>
+              <em><i class="fas fa-exclamation-circle"></i>&nbsp;<%= @minimum_password_length %> characters minimum / leave blank if you don't want to change it</em>
+            <% end %>
+          </span>
+        </label>
+          <%= f.password_field :password, class: "editUserProfile__pw", placeholder: "Add your new password" %>
+      </div>
+    
+      <div class="field">
+        <label for="user_password_confirmation"><span><i class="far fa-check-circle"></i>&nbsp;New password confirmation</span>
+          <%= f.password_field :password_confirmation, class: "editUserProfile__pwConfirmation", placeholder: "Add your new password again" %>
+      </div>
+    
+      <div class="field">
+        <label for="user_current_password">
+          <span>
+            <i class="fas fa-unlock-alt"></i>&nbsp;Current password<br>
+            <em><i class="fas fa-exclamation-circle"></i>&nbsp;Need your current password to confirm your changes</em>
+          </span>
+        </label>
+          <%= f.password_field :current_password, class: "editUserProfile__currentPW", placeholder: "Add your current password" %>
+      </div>
+    
+      <div class="actions sLine">
+        <%= button_tag(type: "submit", class: "submit") do %>
+          <i class="fas fa-user-check"></i>&nbsp;Update
+        <% end %>
+      </div>
     <% end %>
+    
+    <h3>Cancel my account</h3>
+    <p class="sLine">
+      <em><i class="fas fa-exclamation-circle"></i>&nbsp;Cannot restore data after canceling</em><br>
+      <button>
+      <%= link_to registration_path(resource_name), data: { confirm: "Are you sure? -> Cancel 'User: #{current_user.nickname}, Email: #{current_user.email}'" }, method: :delete  do %>
+        <i class="fas fa-user-slash"></i>&nbsp;Cancel my account
+      <% end %>
+      </button>
+    </p>
+    <%= link_to "<<Back", :back, style: "display: block; text-align: center; margin-bottom: 20px;" %>
   </div>
-
-  <div class="field">
-    <%= f.label :nickname %>
-    <%= f.text_field :nickname, autofocus: true, autocomplete: "nickname", placeholder: "Nickname", maxlength: 10 %>
-  </div>
-
-  <div class="field">
-    <%= f.label :email %>
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
-<%= link_to "Back", :back %>
+  <footer>
+    <p><small>&copy; 2019 Jowan</small></p>
+  </footer>
+</body>

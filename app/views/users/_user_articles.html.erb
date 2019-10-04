@@ -5,7 +5,13 @@
         <% else %>
             <%= image_tag "default.png", class: "imgAuthor", alt: "Author:#{post.user.nickname}" %>
         <% end %>
-        <h3 class="postTitle"><%= link_to "#{post.title}", post_path(post), method: :get  %></h3>
+        <h3 class="postTitle">
+            <% if current_user.already_watched?(post) %>
+                <%= link_to "#{post.title}", post_path(post), method: :get  %>
+            <% else %>
+                <%= link_to "#{post.title}", post_views_path(post), method: :post %>
+            <% end %>
+        </h3>
     </div>
     <ul class="evaluationLs flexContainer">
         <li><i class="far fa-thumbs-up"></i>&nbsp;<%= post.likes.count %></li>
