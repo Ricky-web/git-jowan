@@ -1,0 +1,27 @@
+<div class="related-articles">
+    <header class="related-articles__header">
+        <p class="related-articles__header__title">
+            <i class="fas fa-newspaper"></i>&nbsp;Related Articles
+        </p>
+        <% if user_signed_in? %>
+            <%= link_to 'Show more>>', search_posts_path(params: {:q => {currency_pair_eq: @post.currency_pair}}), method: :post, class: "related-articles__header__search-btn" %>
+        <% end %>
+    </header>
+    <% if @related_articles.present? %>
+        <% @related_articles.each do |p| %>
+            <div class="related-articles__article-container">
+                <% if p.user.image.attached? %>
+                    <%= image_tag p.user.image, class: "related-articles__img-author", alt: "Author: #{p.user.nickname}", title: "Author: #{p.user.nickname}", onmousedown: "return false;", oncontextmenu: "return false;", onselectstart: "return false;" %>
+                <% else %>
+                    <%= image_tag "default.png", class: "related-articles__img-author", alt: "Author: #{p.user.nickname}", title: "Author: #{p.user.nickname}", onmousedown: "return false;", oncontextmenu: "return false;", onselectstart: "return false;" %>
+                <% end %>
+                <%= link_to "#{p.title}", post_path(p.id), method: :get, class: "related-articles__title" %>
+            </div>
+        <% end %>
+    <% else %>
+        <p>Not found.</p>
+    <% end %>
+    <div class="related-articles__back-btn">
+        <%= link_to '<< Back to articles page', posts_path, method: :get %>
+    </div>
+</div>

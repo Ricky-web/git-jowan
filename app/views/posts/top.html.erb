@@ -8,10 +8,16 @@
             <h1><a href="#"><%= image_tag 'logo.png', alt: "Jowan", class: "big__pageHeader__imgLogo" %></a></h1>
             <nav>
                 <p class="alert"><%= alert %></p>
-                <ul class="big__pageHeader__mainNav">
-                    <li><a href="users/sign_in"><i class="fas fa-sign-in-alt"></i>&nbsp;SignIn</a></li>
-                    <li><a href="users/sign_up"><i class="fas fa-user-plus"></i>&nbsp;SginUp</a></li>
-                </ul>
+                <% if user_signed_in? %>
+                    <ul class="big__pageHeader__mainNav">
+                        <li><%= link_to destroy_user_session_path, method: :delete do %><i class="fas fa-sign-out-alt"></i>&nbsp;LogOut<% end %></li>
+                    </ul>
+                <% else %>
+                    <ul class="big__pageHeader__mainNav">
+                        <li><a href="users/sign_in"><i class="fas fa-sign-in-alt"></i>&nbsp;SignIn</a></li>
+                        <li><a href="users/sign_up"><i class="fas fa-user-plus"></i>&nbsp;SginUp</a></li>
+                    </ul>
+                <% end %>
             </nav>
         </header>
         
@@ -21,7 +27,7 @@
                 Jowan is specialized sharing platform for FX. Share your valuable information!
             </p>
             <div class="big__homeContent__sLine sLine"></div>
-            <%= link_to 'View articles >>', posts_path, method: :get, class: "big_homeContent_btn" %>
+            <%= link_to posts_path, method: :get, class: "big_homeContent_btn" do %>View articles&nbsp;<i class="fas fa-caret-right"></i><% end %>
         </div>
     
     </div>
@@ -54,9 +60,5 @@
         <% end %>
     </section>
     
-    <footer>
-        <div class="wrapper">
-            <p><small>&copy; 2019 Jowan</small></p>
-        </div>
-    </footer>
+    <%= render 'commons/footer' %>
 </body>

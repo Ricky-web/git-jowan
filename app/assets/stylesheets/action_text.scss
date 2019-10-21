@@ -1,0 +1,24 @@
+.trix-content {
+        font-size: 1rem;
+
+    pre {
+        color: #FFF;
+        background-color: #364549 !important;
+    }
+    
+    ul {
+        list-style: square;
+    }
+    
+    h1 {
+        padding: .2em 0;
+        margin: .6em 0 !important;
+        font-size: 2rem !important;
+        font-weight: normal;
+        border-bottom: 1px #BBB solid;
+    }
+    
+    a {
+        color: #337ab7;
+    }
+}

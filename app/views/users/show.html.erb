@@ -6,11 +6,18 @@
         <header class="big__pageHeader">
             <h1><a href="/"><%= image_tag "logo.png", class: "big__pageHeader__imgLogo", alt: "Jowan" %></a></h1>
             <nav>
-                <ul class="big__pageHeader__mainNav">
-                    <li><a href="/posts"><i class="far fa-newspaper"></i>&nbsp;Articles</a></li>
-                    <li><a href="/posts/new"><i class="far fa-plus-square"></i>&nbsp;POST</a></li>
-                    <li><a href="/users/sign_out" data-method="delete"><i class="fas fa-running"></i>&nbsp;LogOut</a></li>
-                </ul>
+                <% if user_signed_in? %>
+                    <ul class="big__pageHeader__mainNav">
+                        <li><a href="/posts/new"><i class="far fa-plus-square"></i>&nbsp;POST</a></li>
+                        <li><a href="/posts"><i class="far fa-newspaper"></i>&nbsp;Articles</a></li>
+                        <li><a href="/users/sign_out" data-method="delete"><i class="fas fa-sign-out-alt"></i>&nbsp;LogOut</a></li>
+                    </ul>
+                <% else %>
+                    <ul class="big__pageHeader__mainNav">
+                        <li><%= link_to new_user_session_path, method: :get do %><i class="fas fa-sign-in-alt"></i>&nsp;SignIn<% end %></li>
+                        <li><%= link_to new_user_registration_path, method: :get do %><i class="fas fa-user-plus"></i>&nbsp;SignUp<% end %></li>
+                    </ul>
+                <% end %>
             </nav>
         </header>
         <div class="big__pageContent wrapper">
@@ -26,7 +33,7 @@
             <% end %>
             <h3 class="showUserProfile__info__fullName sLine">
                 <%= @user.nickname %><br>
-                <% if current_user.id == @user.id %>
+                <% if user_signed_in? && current_user.id == @user.id %>
                     <%= link_to edit_user_registration_path, method: :get do %>
                         <span class="userSettingBtn"><i class="fas fa-user-edit"></i>&nbsp;Edit</span>
                     <% end %>
@@ -140,7 +147,5 @@
             
         </section>
     </div>
-    <footer>
-        <p><small>&copy; 2019 Jowan</small></p>
-    </footer>
+    <%= render 'commons/footer' %>
 </body>

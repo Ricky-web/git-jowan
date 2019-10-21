@@ -1,0 +1,23 @@
+.comment-area
+    |
+    |->comment-wrap
+        |
+        |->user-avatar
+        |
+        |->user-name
+        |
+        |->body
+        |
+        |->timestamp
+        |
+        |->destroy-btn
+    |
+    |->comentForm
+        |
+        |->(label)
+            |
+            |->img-user
+        |
+        |->textarea
+        |
+        |->submit-btn

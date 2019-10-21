@@ -1,0 +1,53 @@
+<%= search_form_for @q, url: search_posts_path do |f| %>
+            
+    <div class="field">
+        <label for="q_currency_pair_eq"><i class="fas fa-exchange-alt"></i>&nbsp;Currency pair</label>
+        <%= f.select :currency_pair_eq, ["USDJPY", "GBPJPY", "EURJPY", "AUDJPY", "NZDJPY", "CADJPY", "CHFJPY", "HKDJPY", "ZARJPY", "GBPUSD", "EURUSD", "AUDUSD", "NZDUSD"], :prompt => "Select" %>
+    </div>
+    
+    <div class="field">
+        <label for="q_user_nickname_eq"><i class="fas fa-user"></i>&nbsp;Name</label>
+        <%= f.text_field :user_nickname_eq, maxlength: 10 %>
+    </div>
+    
+    <div class="field">
+        <label for="q_title_cont"><i class="fas fa-heading"></i>&nbsp;Heading / Title</label>
+        <%= f.text_field :title_cont %>
+    </div>
+    
+    <div class="field">
+        <label for="q_rich_text_content_body_cont">
+            <i class="fas fa-search-plus"></i>&nbsp;Free word<br>
+        </label>
+        <%= f.text_field :rich_text_content_body_cont %>
+    </div>
+    
+    <div class="field">
+        <label for="q_created_at_gteq"><i class="far fa-clock"></i>&nbsp;Created DateTime</label>
+        <div class="flexContainer">
+            <div class="from_to">From:</div>
+            <%= f.datetime_field :created_at_gteq %>
+        </div>
+        <div class="flexContainer">
+            <div class="from_to">To:</div>
+            <%= f.datetime_field :created_at_lteq %>
+        </div>
+    </div>
+    
+    <div class="field">
+        <label for="q_updated_at_gteq"><i class="fas fa-history"></i>&nbsp;Updated DateTime</label>
+        <div class="flexContainer">
+            <div class="from_to">From:</div>
+            <%= f.datetime_field :updated_at_gteq %>
+        </div>
+        <div class="flexContainer">
+            <div class="from_to">To:</div>
+            <%= f.datetime_field :updated_at_lteq %>
+        </div>
+    </div>
+    
+    <%= button_tag(type: "submit") do %>
+        <i class="fas fa-search"></i>&nbsp;Search
+    <% end %>
+    
+<% end %>

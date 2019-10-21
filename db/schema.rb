@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_23_092439) do
+ActiveRecord::Schema.define(version: 2019_10_21_070130) do
 
   create_table "action_text_rich_texts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "name", null: false
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 2019_09_23_092439) do
     t.string "nickname", limit: 10, null: false
     t.string "email", default: "", null: false
     t.text "bio"
+    t.string "language", default: "EN"
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"

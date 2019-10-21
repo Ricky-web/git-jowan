@@ -1,0 +1,27 @@
+<div class="page-top">
+    <header class="big__pageHeader--position">
+        <h1><a href="/posts"><%= image_tag "logo.png", class: "big__pageHeader__imgLogo", alt: "Jowan", onmousedown: "return false;", oncontextmenu: "return false;", onselectstart: "return false;" %></a></h1>
+        <nav>
+            <ul class="big__pageHeader__mainNav">
+                <% if user_signed_in? %>
+                    <li><a href="/posts" data-method="get"><i class="far fa-newspaper"></i>&nbsp;Artcles</a></li>
+                    <li><a href="/posts/new" data-method="get"><i class="far fa-plus-square"></i>&nbsp;POST</a></li>
+                    <li><a href="/users/sign_out" data-method="delete"><i class="fas fa-sign-out-alt"></i>&nbsp;LogOut</a></li>
+                <% else %>
+                    <li><a href="/posts" data-method="get"><i class="far fa-newspaper"></i>&nbsp;Artcles</a></li>
+                    <li><%= link_to new_user_session_path, method: :get do %><i class="fas fa-sign-in-alt"></i>&nbsp;SignIn<% end %></li>
+                    <li><%= link_to new_user_registration_path, method: :get do %><i class="fas fa-user-plus"></i>&nbsp;SignUp<% end %></li>
+                <% end %>
+            </ul>
+        </nav>
+    </header>
+    <div class="big__pageContent--position">
+        <% if user_signed_in? %>
+            <h2 class="big__pageContent__pageTitle--color"><%= link_to "#{@post.currency_pair}", search_posts_path(params: {:q => {currency_pair_eq: "#{@post.currency_pair}"}}) %></h2>
+        <% else %>
+            <h2 class="big__pageContent__pageTitle--color"><%= @post.currency_pair %></h2>
+        <% end %>
+    </div>
+    <%= image_tag "country_img/img_#{@post.currency_pair[0, 3]}", class: "page-top__ccy", alt: "ccy: #{@post.currency_pair[0, 3]}", onmousedown: "return false;", oncontextmenu: "return false;", onselectstart: "return false;" %>
+    <%= image_tag "country_img/img_#{@post.currency_pair[3, 6]}", class: "page-top__margin-ccy", alt: "ccy: #{@post.currency_pair[3, 6]}", onmousedown: "return false;", oncontextmenu: "return false;", onselectstart: "return false;" %>
+</div>

@@ -1,13 +1,13 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
-  before_action :ranks, only: [:top]
-
+  before_action :ranks, only: [:top, :index, :search]
+  
   # GET /posts
   # GET /posts.json
   def index
     @q = Post.ransack(params[:q])
     posts = @q.result.order('updated_at DESC').includes(:user)
-    @posts = posts.page(params[:page]).per(10)
+    @posts = posts.page(params[:page]).per(20)
     @posts_count = posts.count
     now = Time.current
     @ten_minutes_ago = now.ago(10.minutes)
@@ -17,6 +17,9 @@ class PostsController < ApplicationController
   # GET /posts/1.json
   def show
     @comments = @post.comments.order('created_at DESC')
+    now = Time.current
+    @ten_minutes_ago = now.ago(10.minutes)
+    @related_articles = Post.where(currency_pair: @post.currency_pair).order('created_at DESC').limit(5)
   end
 
   # GET /posts/new
@@ -26,6 +29,7 @@ class PostsController < ApplicationController
 
   # GET /posts/1/edit
   def edit
+    @post = Post.find_by(id: params[:id])
   end
 
   # POST /posts

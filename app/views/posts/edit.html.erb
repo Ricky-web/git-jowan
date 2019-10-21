@@ -1,10 +1,10 @@
 <head>
-    <title>Jowan - Create New Post</title>
+    <title>Jowan - Edit <%= @post.title %></title>
 </head>
 <body>
-    <header class="editorForm__pageHeader wrapper">
+    <header class="editorForm__pageHeader">
         <h1><a href="/posts"><%= image_tag "logo.png", class: "logo", alt: "Jowan" %></a></h1>
-        <h2 class="editorForm__pageHeader__pageTitle">Create New Article</h2>
+        <h2 class="editorForm__pageHeader__pageTitle">Edit article</h2>
     </header>
     <%= render 'form', post: @post %>
     <%= render 'commons/footer' %>

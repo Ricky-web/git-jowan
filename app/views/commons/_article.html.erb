@@ -1,0 +1,77 @@
+<article class="article">
+    <header class="article__header">
+        <div class="article__header__trItem">
+            <% if @post.user.image.attached? %>
+                <%= image_tag @post.user.image, class: "article__img-author", alt: "Author: #{@post.user.nickname}", title: "Author: #{@post.user.nickname}", onmousedown: "return false;", oncontextmenu: "return false;", onselectstart: "return false;" %>
+            <% else %>
+                <%= image_tag "default.png", class: "article__img-author", alt: "Author: #{@post.user.nickname}", title: "Author: #{@post.user.nickname}", onmousedown: "return false;", oncontextmenu: "return false;", onselectstart: "return false;" %>
+            <% end %>
+            <cite class="article__name-author">
+                <%= link_to "#{@post.user.nickname}", user_path(@post.user), method: :get, rel: "author" %>
+            </cite>
+            <time class="article__posted-datetime" datetime="<%= @post.created_at.strftime('%F%T%z') %>"><i class="far fa-clock"></i>&nbsp;<%= @post.created_at.strftime('%a, %d %b %Y %X %Z') %></time>
+            <time class="article__updated-datetime" datetime="<%= @post.updated_at.strftime('%F%T%z') %>"><i class="fas fa-history"></i>&nbsp;<%= @post.updated_at.strftime('%a, %d %b %Y %X %Z') %></time>
+            <% if @ten_minutes_ago < @post.created_at %>
+                <span class="article__new">NEW</span>
+            <% end %>
+        </div>
+        <div class="article__header__flexContainer">
+            <div class="article__header__flexContainer__leftItem">
+                <div class="article__ccyPair">
+                    <%= image_tag "ccy_img/#{@post.currency_pair[0, 3]}.png", class: "article__ccyPair__ccy", alt: "#{@post.currency_pair[0, 3]}", title: "ccyPair: #{@post.currency_pair}", onmousedown: "return false;", oncontextmenu: "return false;", onselectstart: "return false;" %>
+                    <%= image_tag "ccy_img/#{@post.currency_pair[3, 6]}.png", class: "article__ccyPair__ccy-margin", alt: "#{@post.currency_pair[3, 6]}", title: "ccyPair: #{@post.currency_pair}", onmousedown: "return false;", oncontextmenu: "return false;", onselectstart: "return false;" %>
+                </div>
+            </div>
+            <div class="article__header__flexContainer__rightItem">
+                <h2 class="article__postTitle"><%= @post.title %></h2>
+                <p class="article__pr"><i class="fas fa-ad" style="color: #99CCFF;"></i>&nbsp;<a href="https://clicks.pipaffiliates.com/c?c=453270&l=en&p=1" rel="nofollow" style="color: red;">[XM] Get your ￥3000 Trading Bonus!</a></p>
+            </div>
+        </div>
+    </header>
+    <%= @post.content %>
+    <div class="article__author-info">
+        <label class="article__author-info__label">Author</label>
+        <div class="article__author-info--flexContainer">
+            <div class="article__author-info__leftItem">
+                <% if @post.user.image.attached? %>
+                    <%= image_tag @post.user.image, class: "article__author-info__avatar", alt: "Author: #{@post.user.nickname}", title: "Author: #{@post.user.nickname}", onmousedown: "return false;", oncontextmenu: "return false;", onselectstart: "return false;" %>
+                <% else %>
+                    <%= image_tag "default.png", class: "article__author-info__avatar", alt: "Author: #{@post.user.nickname}", title: "Author: #{@post.user.nickname}", onmousedown: "return false;", oncontextmenu: "return false;", onselectstart: "return false;" %>
+                <% end %>
+            </div>
+            <div class="article__author-info__rightItem">
+                <cite class="article__author-info__name">
+                    <%= @post.user.nickname %>
+                </cite>
+                <p class="article__author-info__bio">
+                    <%= simple_format @post.user.bio %>
+                </p>
+            </div>
+        </div>
+    </div>
+    <ul class="article__evaluation">
+        
+        <!--LIKE-->
+        <% if user_signed_in? && current_user.already_liked?(@post) %>
+            <li><%= button_tag(type: 'button', style: 'background: #0bd;') do %><%= link_to post_like_path(@post.id, @post.likes.find_by(user_id: current_user.id)), method: :delete, style: 'color: #FFF;' do %><i class="fas fa-thumbs-up"></i><br><%= @post.likes.count %><% end %><% end %></li>
+        <% elsif user_signed_in? %>
+            <li><%= button_tag(type: 'button') do %><%= link_to post_likes_path(@post.id), method: :post, style: 'color: #0bd;' do %><i class="far fa-thumbs-up"></i><br><%= @post.likes.count %><% end %><% end %></li>
+        <% else %>
+            <li><%= button_tag(type: 'button') do %><%= link_to new_user_session_path, method: :get, style: 'color: #0bd;' do %><i class="far fa-thumbs-up"></i><br><%= @post.likes.count %><% end %><% end %></li>
+        <% end %>
+        
+        <!--COMMENT-->
+        <% if (user_signed_in? && @post.comments.exists?(user_id: current_user.id)) %>
+            <li><%= button_tag(type: 'button', style: 'background: #0bd;') do %><a href="#comment-g" style="color: #FFF;"><i class="fas fa-comment"></i><br><%= @post.comments.count %></a><% end %></li>
+        <% else %>
+            <li><%= button_tag(type: 'button') do %><a href="#comment-g" style="color: #0bd;"><i class="far fa-comment"></i><br><%= @post.comments.count %></a><% end %></li>
+        <% end %>
+        
+        <!--VIEW-->
+        <% if user_signed_in? && current_user.already_watched?(@post) %>
+            <li><%= button_tag(type: 'button', style: 'background: #0bd; color: #FFF;') do %><i class="fas fa-eye"></i><br><%= @post.views.count %><% end %></li>
+        <% else %>
+            <li><%= button_tag(type: 'button', style: 'color: #0bd;') do %><i class="far fa-eye"></i><br><%= @post.views.count %><% end %></li>
+        <% end %>
+    </ul>
+</article>

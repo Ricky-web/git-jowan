@@ -12,23 +12,34 @@
   <% end %>
 
   <div class="field">
-    <label for="post_title"></label>
-    <%= form.text_field :title, class: "post-title", placeholder: "Title", autofocus: true %>
+    <label for="post_title">
+      <i class="fas fa-heading"></i>&nbsp;Heading / Title<br>
+      <em><i class="fas fa-exclamation-circle"></i>&nbsp;Required items</em>
+    </label>
+    <%= form.text_field :title, class: "post-title", placeholder: "Add title", autofocus: true %>
   </div>
   
   <div class="field">
-    <label for="post_currency_pair" class="caret-down"></label>
+    <label for="post_currency_pair" class="caret-down">
+      <i class="fas fa-exchange-alt"></i>&nbsp;Currency Pair<br>
+      <em><i class="fas fa-exclamation-circle"></i>&nbsp;Required items</em>
+    </label>
     <%= form.select :currency_pair, ["USDJPY", "GBPJPY", "EURJPY", "AUDJPY", "NZDJPY", "CADJPY", "CHFJPY", "HKDJPY", "ZARJPY", "GBPUSD", "EURUSD", "AUDUSD", "NZDUSD"], :prompt => "Select Currency Pair" %>
+    <p class="supplementary_explanation">If you can't find a currency pair, please request here -> <a href="mailto:jowan-jp@gmail.com?subject=Request for currency pair"><i class="far fa-envelope"></i>&nbsp;jowan-jp@gmail.com</a></p>
   </div>
   
   <div class="field">
-    <label for="post_content"></label>
-    <%= form.rich_text_area :content %>
+    <label for="post_content"><i class="fas fa-feather-alt"></i>&nbsp;Content</label>
+    <%= form.rich_text_area :content, placeholder: "Add content" %>
   </div>
   
-  <div class="actions">
-    <%= button_tag(type: "submit") do %>
-     <i class="far fa-plus-square"></i>&nbsp;Create
+  <div class="actions sLine">
+    <%= button_tag(type: "submit", data: {confirm: "When creating an article, please be careful about copyright, portrait rights, publicity rights, etc. 記事作成の際は著作権や肖像権、パブリシティ権等には十分にご注意ください。"}) do %>
+     <i class="far fa-paper-plane"></i>&nbsp;Send
     <% end %>
+  </div>
+  
+  <div class="back-btn">
+    <%= link_to '<<Back', :back %>
   </div>
 <% end %>

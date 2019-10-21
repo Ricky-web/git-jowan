@@ -1,104 +1,11 @@
 <head>
     <title>Jowan - <%= @post.title %></title>
 </head>
-<body>
-    <div id="show" class="big--bg">
-        <header class="big__pageHeader">
-            <h1><a href="/"><%= image_tag 'logo.png', class: "big__pageHeader__imgLogo", alt: "Jowan" %></a></h1>
-            <nav>
-                <ul class="big__pageHeader__mainNav">
-                    <li><a href="/posts" data-method="get"><i class="far fa-newspaper"></i>&nbsp;Artcles</a></li>
-                    <li><a href="/posts/new" data-method="get"><i class="far fa-plus-square"></i>&nbsp;POST</a></li>
-                    <li><a href="/users/sign_out" data-method="delete"><i class="fas fa-running"></i>&nbsp;LogOut</a></li>
-                </ul>
-            </nav>
-        </header>
-        <div class="big__pageContent wrapper">
-            <h2 class="big__pageContent__pageTitle"><%= link_to "#{@post.currency_pair}", search_posts_path(params: {:q => {currency_pair_eq: @post.currency_pair}}), method: :post %></h2>
-        </div>
-    </div>
-    <main>
-        <article class="sLine">
-            <header class="post-info">
-                <% if @post.user.image.attached? %>
-                    <%= link_to search_posts_path(params: {:q => {user_nickname_eq: @post.user.image}}), method: :post do %>
-                        <%= image_tag @post.user.image, class: "img-author", alt: "Author:#{@post.user.nickname}" %>
-                    <% end %>
-                <% else %>
-                    <%= link_to search_posts_path(params: {:q => {user_nickname_eq: @post.user.nickname}}), method: :post do %>
-                        <%= image_tag "default.png", class: "img-author", alt: "Author:#{@post.user.nickname}" %>
-                    <% end %>
-                <% end %>
-                <h2 class="post-title"><%= @post.title %></h2>
-                <time datetime="<%= @post.updated_at.strftime("%FT%T%z") %>" class="post-date"><i class="far fa-clock">&nbsp;<%= @post.updated_at.strftime("%a, %d %b %Y %X %Z") %></i></time>
-                <ul class="rate">
-                    <% if current_user.already_liked?(@post) %>
-                        <li><a data-method="delete" href="/posts/<%= @post.id %>/likes/<%= @post.likes.find_by(user_id: current_user.id).id %>"><button style="background: #0bd; color: #FFF;"><i class="far fa-thumbs-up"><%= @post.likes.count %></i></button></a></li>
-                    <% else %>
-                        <li><a data-method="post" href="/posts/<%= @post.id %>/likes"><button><i class="far fa-thumbs-up"><%= @post.likes.count %></i></button></a></li>
-                    <% end %>
-                    <% if @post.comments.exists?(user_id: current_user.id) %>
-                        <li><a href="#comment-g"><button style="background: #0bd; color: #FFF;"><i class="far fa-comment-alt"><%= @post.comments.count %></i></button></a></li>
-                    <% else %>
-                        <li><a href="#comment-g"><button><i class="far fa-comment-alt"><%= @post.comments.count %></i></button></a></li>
-                    <% end %>
-                    <% if current_user.already_watched?(@post) %>
-                        <li><a><button style="background: #0bd; color: #FFF;"><i class="far fa-eye"><%= @post.views.count %></i></button></a></li>
-                    <% else %>
-                        <li><button><i class="far fa-eye"><%= @post.views.count %></i></button></li>
-                    <% end %>
-                </ul>
-            </header>
-            <%= @post.content %>
-        </article>
-    </main>
-    <div class="comment-a comment-container">
-        <% if @comments.present? %>
-            <% @comments.each do |comment| %>
-                <div class="comment-wrap">
-                    <% if comment.user.image.attached? %>
-                        <%= link_to search_posts_path(params: {:q => {user_nickname_eq: comment.user.nickname}}), method: :post do %>
-                            <%= image_tag comment.user.image, class: "img-user", alt: "User:#{comment.user.nickname}" %>
-                        <% end %>
-                    <% else %>
-                        <%= link_to search_posts_path(params: {:q => {user_nickname_eq: comment.user.nickname}}), method: :post do %>
-                            <%= image_tag "default.png", class: "img-user", alt: "User:#{comment.user.nickname}" %>
-                        <% end %>
-                    <% end %>
-                    <%= link_to "#{comment.user.nickname}", search_posts_path(params: {:q => {user_nickname_eq: comment.user.nickname}}), method: :post, class: "user-name" %>
-                    <p><%= simple_format comment.text, class: "comment-body" %></p>
-                    <time class="timestamp" datetime="<%= comment.created_at.strftime("%FT%R%z") %>"><i class="far fa-clock">&nbsp;<%= comment.created_at.strftime("%F %T") %></i></time>
-                    <% if current_user.id == comment.user_id %>
-                        <a class="comment-d-btn" href="/posts/<%= @post.id %>/comments/<%= comment.id %>" data-method="delete" data-confirm="Are you delete? Once deleted, it cannot be restored."><i class="far fa-trash-alt"></i></a>
-                    <% end %>
-                </div>
-            <% end %>
-        <% end %>
-    </div>
-    <div class="comment-f comment-container">
-        <% if current_user.image.attached? %>
-            <%= image_tag current_user.image, class: "img-user", alt: "User:#{current_user.nickname}" %>
-        <% else %>
-            <%= image_tag "default.png", class: "img-user", alt: "User:#{current_user.nickname}" %>
-        <% end %>
-        <%= form_tag("/posts/#{@post.id}/comments", method: :post) do %>
-            <% if @post.comments.exists?(user_id: current_user.id) %>
-                <%= label_tag :text, 'Create comment', id: "comment-g" %>
-                <!--<textarea name="text" id="text" disabled="disabled" style="cursor: not-allowed !important;" placeholder="An article can only have one you comment.&#13;&#10;If you delete an already posted comment, you can post it again."></textarea>-->
-                <p class="comment-g-block">
-                    You have already commented on this article. You can create it again if you delete it.<br>
-                </p>
-            <% else %>
-                <!--Submit as parameters-->
-                <%= label_tag :text, 'Create comment', id: "comment-g" %>
-                <%= text_area_tag :text %>
-                <%= submit_tag 'Create' %>
-            <% end %>
-        <% end %>
-    </div>
-    <footer>
-        <div class="wrapper">
-            <p><small>&copy; 2019 Jowan</small></p>
-        </div>
-    </footer>
+<body style="background: #F8F8FF">
+    <%= render partial: 'commons/page-top', object: @post %>
+    <%= render partial: 'commons/article', object: @post, object: @ten_minutes_ago %>
+    <%= render partial: 'commons/jowan-ad' %>
+    <%= render partial: 'commons/comment-area', object: @post %>
+    <%= render partial: 'commons/related-articles', object: [@related_articles, @post] %>
+    <%= render partial: 'commons/footer' %>
 </body>

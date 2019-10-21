@@ -1,0 +1,61 @@
+@import "test";
+
+.page-top {
+    margin-bottom: 40px;
+    position: relative;
+    
+    %img-size {
+        width: 55.55%;
+        height: 270px;
+        object-fit: fill;
+        opacity: .5;
+    }
+    
+    &__ccy {
+        @extend %img-size;
+        clip-path: polygon(0 0, 100% 0, 80% 100%, 0 100%);
+    }
+    
+    &__margin-ccy {
+        @extend %img-size;
+        clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%);
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+}
+
+.big__pageHeader {
+    
+    &--position {
+        @extend %pageHeader;
+        width: calc(100% - calc(100vw - 1100px));
+        position: absolute;
+        top: 0;
+        z-index: 9999;
+        
+        &:hover {
+            background: #FFF;
+        }
+    }
+}
+
+.big__pageContent {
+    
+    &--position {
+        width: 100%;
+        position: absolute;
+        top: 100px;
+        z-index: 9999;
+    }
+    
+    &__pageTitle {
+        &--color {
+            @extend %pageTitle;
+            
+            a:hover {
+                color: #555;
+            }
+        }
+    }
+}

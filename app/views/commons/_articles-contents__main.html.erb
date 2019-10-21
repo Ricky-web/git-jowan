@@ -1,0 +1,12 @@
+<main class="articles-contents__main">
+    <%= paginate @posts %>
+    <% if @posts.present? %>
+        <% @posts.each do |post| %>
+            <%= render partial: 'commons/articles', locals: {post: post} %>
+        <% end %>
+    <% else %>
+        <p>Not found</p>
+    <% end %>
+    <%= paginate @posts %>
+    <%= render partial: 'commons/jowan-ad' %>
+</main>
