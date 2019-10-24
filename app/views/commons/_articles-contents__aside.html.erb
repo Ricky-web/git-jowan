@@ -1,39 +1,81 @@
-<aside class="articles-contents__aside">
-    <h3 class="sub-title"><i class="fas fa-search"></i>&nbsp;Search</h3>
-    <% if user_signed_in? %>
-        <%= render partial: 'commons/search_form' %>
-    <% else %>
-        <p class="user_signed_in">
-            <%= image_tag "search_form.png", class: "img-searchForm", oncontextmenu: "return false;", onmousedown: "return false;", onselectstart: "return false;" %>
-            <span><i class="fas fa-exclamation-circle"></i>&nbsp;Need to signin to use searching feature.<br>
-            Click here -> <%= link_to new_user_session_path, method: :get do %><i class="fas fa-sign-in-alt"></i>&nbsp;SignIn/SignUp<% end %></span>
-        </p>
-    <% end %>
-    <h3 class="sub-title">XMTrading</h3>
-    <p>
-        FXならXM!<br>
-        下記のリンクから口座開設の申し込みをすると、
-        今なら3000円のボーナスを獲得できます！<br>
-        レバレッジは<strong>最大888倍</strong>なので、<br>
-        <strong>初回入金なしで2,664,000円分のポジション</strong>が持てる！？<br>
-        
-        例えば1ドル = 100円のレートで2,000,000円分のロングを持ち、<br>
-        価格が101円に上昇すると<strong>含み益は2,020,000‬円</strong>です！<br>
-        <span style="color: red;">無料であなたの口座を3000円ボーナス→2,000,000円</span>へ増やしませんか？<br>
-        
-        あなたのキャッシュフローを構築しよう！<br>
-        
-        口座開設はこちら！↓<br>
-    </p>
-    <a href="https://clicks.pipaffiliates.com/c?m=23064&c=453270"><img src="https://ads.pipaffiliates.com/i/23064?c=453270" width="320" height="100" /></a>
-    <h3 class="sub-title"><i class="fas fa-chart-line"></i>&nbsp;Daily Ranks</h3>
-    <div class="dailyRanks">
-        <% if @ranks.present? %>
-            <% @ranks.each.with_index(1) do |post, i| %>
-                <%= render partial: 'commons/aside_ranks', locals: {post: post, i: i} %>
-            <% end %>
+<% if (user_signed_in? && current_user.language == "EN") || !(user_signed_in?) %>
+    <aside class="articles-contents__aside">
+        <h3 class="sub-title"><i class="fas fa-search"></i>&nbsp;Search</h3>
+        <% if user_signed_in? %>
+            <%= render partial: 'commons/search_form' %>
         <% else %>
-            <p class="dailyRanks__noRanks">Not updated yet.</p>
+            <p class="user_signed_in">
+                <%= image_tag "search_form.png", class: "img-searchForm", oncontextmenu: "return false;", onmousedown: "return false;", onselectstart: "return false;" %>
+                <span><i class="fas fa-exclamation-circle"></i>&nbsp;Need to signin to use searching feature.<br>
+                Click here -> <%= link_to new_user_session_path, method: :get do %><i class="fas fa-sign-in-alt"></i>&nbsp;SignIn/SignUp<% end %></span>
+            </p>
         <% end %>
-    </div>
-</aside>
+        <h3 class="sub-title">XMTrading</h3>
+        <p>
+            FXならXM!<br>
+            下記のリンクから口座開設の申し込みをすると、
+            今なら3000円のボーナスを獲得できます！<br>
+            レバレッジは<strong>最大888倍</strong>なので、<br>
+            <strong>初回入金なしで2,664,000円分のポジション</strong>が持てる！？<br>
+            
+            例えば1ドル = 100円のレートで2,000,000円分のロングを持ち、<br>
+            価格が101円に上昇すると<strong>含み益は2,020,000‬円</strong>です！<br>
+            <span style="color: red;">無料であなたの口座を3000円ボーナス→2,000,000円</span>へ増やしませんか？<br>
+            
+            あなたのキャッシュフローを構築しよう！<br>
+            
+            口座開設はこちら！↓<br>
+        </p>
+        <a href="https://clicks.pipaffiliates.com/c?m=23064&c=453270"><img src="https://ads.pipaffiliates.com/i/23064?c=453270" width="320" height="100" /></a>
+        <h3 class="sub-title"><i class="fas fa-chart-line"></i>&nbsp;Daily Ranks</h3>
+        <div class="dailyRanks">
+            <% if @ranks.present? %>
+                <% @ranks.each.with_index(1) do |post, i| %>
+                    <%= render partial: 'commons/aside_ranks', locals: {post: post, i: i} %>
+                <% end %>
+            <% else %>
+                <p class="dailyRanks__noRanks">Not updated yet.</p>
+            <% end %>
+        </div>
+    </aside>
+<% else %>
+    <aside class="articles-contents__aside">
+        <h3 class="sub-title"><i class="fas fa-search"></i>&nbsp;検索</h3>
+        <% if user_signed_in? %>
+            <%= render partial: 'commons/search_form' %>
+        <% else %>
+            <p class="user_signed_in">
+                <%= image_tag "search_form.png", class: "img-searchForm", oncontextmenu: "return false;", onmousedown: "return false;", onselectstart: "return false;" %>
+                <span><i class="fas fa-exclamation-circle"></i>&nbsp;Need to signin to use searching feature.<br>
+                Click here -> <%= link_to new_user_session_path, method: :get do %><i class="fas fa-sign-in-alt"></i>&nbsp;SignIn/SignUp<% end %></span>
+            </p>
+        <% end %>
+        <h3 class="sub-title">XMTrading</h3>
+        <p>
+            FXならXM!<br>
+            下記のリンクから口座開設の申し込みをすると、
+            今なら3000円のボーナスを獲得できます！<br>
+            レバレッジは<strong>最大888倍</strong>なので、<br>
+            <strong>初回入金なしで2,664,000円分のポジション</strong>が持てる！？<br>
+            
+            例えば1ドル = 100円のレートで2,000,000円分のロングを持ち、<br>
+            価格が101円に上昇すると<strong>含み益は2,020,000‬円</strong>です！<br>
+            <span style="color: red;">無料であなたの口座を3000円ボーナス→2,000,000円</span>へ増やしませんか？<br>
+            
+            あなたのキャッシュフローを構築しよう！<br>
+            
+            口座開設はこちら！↓<br>
+        </p>
+        <a href="https://clicks.pipaffiliates.com/c?m=23064&c=453270"><img src="https://ads.pipaffiliates.com/i/23064?c=453270" width="320" height="100" /></a>
+        <h3 class="sub-title"><i class="fas fa-chart-line"></i>&nbsp;デイリーランキング</h3>
+        <div class="dailyRanks">
+            <% if @ranks.present? %>
+                <% @ranks.each.with_index(1) do |post, i| %>
+                    <%= render partial: 'commons/aside_ranks', locals: {post: post, i: i} %>
+                <% end %>
+            <% else %>
+                <p class="dailyRanks__noRanks">Not updated yet.</p>
+            <% end %>
+        </div>
+    </aside>
+<% end %>

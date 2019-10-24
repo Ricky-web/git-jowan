@@ -1,15 +1,20 @@
 <footer>
+    <% if (user_signed_in? && current_user.language) == "EN" || (!(user_signed_in?)) %>
     <p class="disclaimer">
         <span>Unauthorized copying and replication of the contents of this site, text and images are strictly prohibited.
         When creating an article, please be careful about copyright, portrait rights, publicity rights, etc.<br>
         The content of the content does not guarantee accuracy, and this site does not assume any responsibility for any damages or losses incurred based on the content.
-        Please make investment decisions based on the information posted on this site at your own discretion and responsibility.<br>
-        <br>
+        Please make investment decisions based on the information posted on this site at your own discretion and responsibility.<br></span>
+    </p>
+    <% else %>
+        <p class="disclaimer">
+        <span>
         当サイト内におけるテキストや画像等の無断転載・無断使用等を固く禁じます。
-        また記事作成の際は著作権や肖像権、パブリシティ権等には十分にご注意ください。<br>
+        また、記事作成の際は著作権や肖像権、パブリシティ権等には十分にご注意ください。<br>
         コンテンツの内容は正確性を保証するものではなく、その内容に基づき被ったいかなる損害損失について当サイトは一切の責任を負いません。
         当サイトに投稿された情報に基づいた投資はご自身の責任でご判断いただきますようお願い致します。</span>
-    </p>
+        </p>
+    <% end %>
     <%= image_tag "logo.png", class: "logo", alt: "Jowan", oncontextmenu: "alert('Warning! Unauthorized use of images is prohibited.'); return false;", onselectstart: "return false;", onmousedown: "return false;" %>
     <p><small>&copy; 2019 Jowan</small></p>
 </footer>

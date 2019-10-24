@@ -1,11 +1,25 @@
-<head>
-    <title>Jowan - Create New Post</title>
-</head>
-<body>
-    <header class="editorForm__pageHeader wrapper">
-        <h1><a href="/posts"><%= image_tag "logo.png", class: "logo", alt: "Jowan" %></a></h1>
-        <h2 class="editorForm__pageHeader__pageTitle">Create New Article</h2>
-    </header>
-    <%= render 'form', post: @post %>
-    <%= render 'commons/footer' %>
-</body>
+<% if (user_signed_in? && current_user.language == "EN") || !(user_signed_in?) %>
+    <head>
+        <title>Jowan - Create New Post</title>
+    </head>
+    <body>
+        <header class="editorForm__pageHeader wrapper">
+            <h1><a href="/posts"><%= image_tag "logo.png", class: "logo", alt: "Jowan" %></a></h1>
+            <h2 class="editorForm__pageHeader__pageTitle">Create New Article</h2>
+        </header>
+        <%= render 'form', post: @post %>
+        <%= render 'commons/footer' %>
+    </body>
+<% else %>
+    <head>
+        <title>Jowan - 記事作成</title>
+    </head>
+    <body>
+        <header class="editorForm__pageHeader wrapper">
+            <h1><a href="/posts"><%= image_tag "logo.png", class: "logo", alt: "Jowan" %></a></h1>
+            <h2 class="editorForm__pageHeader__pageTitle">記事作成</h2>
+        </header>
+        <%= render 'form', post: @post %>
+        <%= render 'commons/footer' %>
+    </body>
+<% end %>

@@ -1,10 +1,21 @@
 <div class="related-articles">
     <header class="related-articles__header">
-        <p class="related-articles__header__title">
-            <i class="fas fa-newspaper"></i>&nbsp;Related Articles
-        </p>
+        <% if (user_signed_in? && current_user.language == "EN") || (!(user_signed_in?)) %>
+            <p class="related-articles__header__title">
+                <i class="fas fa-newspaper"></i>&nbsp;Related Articles
+            </p>
+        <% else %>
+            <p class="related-articles__header__title">
+                <i class="fas fa-newspaper"></i>&nbsp;関連記事
+            </p>
+        <% end %>
+        
         <% if user_signed_in? %>
-            <%= link_to 'Show more>>', search_posts_path(params: {:q => {currency_pair_eq: @post.currency_pair}}), method: :post, class: "related-articles__header__search-btn" %>
+            <% if current_user.language == "EN" %>
+                <%= link_to 'Show more>>', search_posts_path(params: {:q => {currency_pair_eq: @post.currency_pair}}), method: :post, class: "related-articles__header__search-btn" %>
+            <% else %>
+                 <%= link_to 'さらに見る>>', search_posts_path(params: {:q => {currency_pair_eq: @post.currency_pair}}), method: :post, class: "related-articles__header__search-btn" %>
+            <% end %>
         <% end %>
     </header>
     <% if @related_articles.present? %>
@@ -21,7 +32,4 @@
     <% else %>
         <p>Not found.</p>
     <% end %>
-    <div class="related-articles__back-btn">
-        <%= link_to '<< Back to articles page', posts_path, method: :get %>
-    </div>
 </div>

@@ -23,6 +23,7 @@ class UsersController < ApplicationController
     end
     
     def update
+        binding.pry
         user = User.find_by(params[:id])
         user.update(update_params)
         redirect_back(fallback_location: root_path)
@@ -30,7 +31,7 @@ class UsersController < ApplicationController
     
     private
     def update_params
-        params.require(:user).permit(:nickname, :email, :bio, :image)
+        params.require(:user).permit(:nickname, :email, :bio, :language, :image)
         
     end
     

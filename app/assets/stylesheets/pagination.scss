@@ -1,0 +1,33 @@
+.pagination {
+    margin-bottom: 40px;
+    
+    %decoration {
+        font-size: 13px;
+        line-height: 2;
+        text-align: center;
+        display: inline-block;
+        padding: 0 .6em;
+        border: 1px #BBB solid;
+        border-radius: 2px;
+        transition: background .1s linear 0s, border-color .1s linear 0s;
+    }
+    
+    .page, .first, .prev, .next, .last {
+        a {
+            @extend %decoration;
+            
+            &:hover {
+                color: #FFF;
+                background: #000099;
+                border-color: #000099;
+            }
+        }
+    }
+    
+    .current {
+        @extend %decoration;
+        font-weight: bold !important;
+        color: black !important;
+        background: #EEE !important;
+    }
+}

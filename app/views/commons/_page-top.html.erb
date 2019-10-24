@@ -2,17 +2,31 @@
     <header class="big__pageHeader--position">
         <h1><a href="/posts"><%= image_tag "logo.png", class: "big__pageHeader__imgLogo", alt: "Jowan", onmousedown: "return false;", oncontextmenu: "return false;", onselectstart: "return false;" %></a></h1>
         <nav>
-            <ul class="big__pageHeader__mainNav">
-                <% if user_signed_in? %>
-                    <li><a href="/posts" data-method="get"><i class="far fa-newspaper"></i>&nbsp;Artcles</a></li>
-                    <li><a href="/posts/new" data-method="get"><i class="far fa-plus-square"></i>&nbsp;POST</a></li>
-                    <li><a href="/users/sign_out" data-method="delete"><i class="fas fa-sign-out-alt"></i>&nbsp;LogOut</a></li>
-                <% else %>
-                    <li><a href="/posts" data-method="get"><i class="far fa-newspaper"></i>&nbsp;Artcles</a></li>
-                    <li><%= link_to new_user_session_path, method: :get do %><i class="fas fa-sign-in-alt"></i>&nbsp;SignIn<% end %></li>
-                    <li><%= link_to new_user_registration_path, method: :get do %><i class="fas fa-user-plus"></i>&nbsp;SignUp<% end %></li>
-                <% end %>
-            </ul>
+            <% if (user_signed_in? && current_user.language == "EN") || (!(user_signed_in?)) %>
+                <ul class="big__pageHeader__mainNav">
+                    <% if user_signed_in? %>
+                        <li><a href="/posts" data-method="get"><i class="far fa-newspaper"></i>&nbsp;Artcles</a></li>
+                        <li><a href="/posts/new" data-method="get"><i class="far fa-plus-square"></i>&nbsp;POST</a></li>
+                        <li><a href="/users/sign_out" data-method="delete"><i class="fas fa-sign-out-alt"></i>&nbsp;LogOut</a></li>
+                    <% else %>
+                        <li><a href="/posts" data-method="get"><i class="far fa-newspaper"></i>&nbsp;Artcles</a></li>
+                        <li><%= link_to new_user_session_path, method: :get do %><i class="fas fa-sign-in-alt"></i>&nbsp;SignIn<% end %></li>
+                        <li><%= link_to new_user_registration_path, method: :get do %><i class="fas fa-user-plus"></i>&nbsp;SignUp<% end %></li>
+                    <% end %>
+                </ul>
+            <% else %>
+                <ul class="big__pageHeader__mainNav">
+                    <% if user_signed_in? %>
+                        <li><a href="/posts" data-method="get"><i class="far fa-newspaper"></i>&nbsp;記事一覧</a></li>
+                        <li><a href="/posts/new" data-method="get"><i class="far fa-plus-square"></i>&nbsp;新規投稿</a></li>
+                        <li><a href="/users/sign_out" data-method="delete"><i class="fas fa-sign-out-alt"></i>&nbsp;ログアウト</a></li>
+                    <% else %>
+                        <li><a href="/posts" data-method="get"><i class="far fa-newspaper"></i>&nbsp;記事一覧</a></li>
+                        <li><%= link_to new_user_session_path, method: :get do %><i class="fas fa-sign-in-alt"></i>&nbsp;ログイン<% end %></li>
+                        <li><%= link_to new_user_registration_path, method: :get do %><i class="fas fa-user-plus"></i>&nbsp;新規登録<% end %></li>
+                    <% end %>
+                </ul>
+            <% end %>
         </nav>
     </header>
     <div class="big__pageContent--position">

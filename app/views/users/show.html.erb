@@ -55,8 +55,8 @@
                                 <i class="far fa-thumbs-up"></i>&nbsp;<%= post.likes.count %>
 
                             <div class="showUserProfile__info__popularArticles__container__currencyPair">
-                                <%= image_tag "#{post.currency_pair[0, 3]}.png", class: "currency", alt:"#{post.currency_pair[0, 3]}" %>
-                                <%= image_tag "#{post.currency_pair[3, 6]}.png", class: "marginCurrency", alt: "#{post.currency_pair[3, 6]}" %>
+                                <%= image_tag "ccy_img/#{post.currency_pair[0, 3]}.png", class: "currency", alt:"#{post.currency_pair[0, 3]}" %>
+                                <%= image_tag "ccy_img/#{post.currency_pair[3, 6]}.png", class: "marginCurrency", alt: "#{post.currency_pair[3, 6]}" %>
                             </div>
                             
                             </span>
@@ -86,8 +86,8 @@
                             <span class="allotmentRate"><%= v.round(2) %>%</span>
                             <div class="showUserProfile__articles__portfolio__allotment__hiddenField flexContainer">
                                 <div class="currencyPairFixBox">
-                                    <%= image_tag "#{k[0, 3]}.png", class: "currency", alt: "#{k[0, 3]}" %>
-                                    <%= image_tag "#{k[3, 6]}.png", class: "marginCurrency", alt: "#{k[3, 6]}" %>
+                                    <%= image_tag "ccy_img/#{k[0, 3]}.png", class: "currency", alt: "#{k[0, 3]}" %>
+                                    <%= image_tag "ccy_img/#{k[3, 6]}.png", class: "marginCurrency", alt: "#{k[3, 6]}" %>
                                 </div>
                                 <p class="currencyPair"><%= k %></p>
                             </div>

@@ -1,16 +1,34 @@
 <div id="comment-g" class="comment-area">
     <header class="comment-area__header">
-        <p class="comment-area__header__title"><i class="fas fa-comment"></i>&nbsp;Comment</p>
-        <p class="comment-area__header__comment-count">
-            <% if @post.comments.count == 1 || @post.comments.count == 0 %>
-                <%= @post.comments.count %>&nbsp;comment
-            <% else %>
-                <%= @post.comments.count %>&nbsp;comments
-            <% end %>
-        </p>
+        <% if (user_signed_in? && current_user.language == "EN") || (!(user_signed_in?)) %>
+            <p class="comment-area__header__title"><i class="fas fa-comment"></i>&nbsp;Comment</p>
+        <% else %>
+            <p class="comment-area__header__title"><i class="fas fa-comment"></i>&nbsp;コメント一覧</p>
+        <% end %>
+        <% if (user_signed_in? && current_user.language == "EN") || (!(user_signed_in?)) %>
+            <p class="comment-area__header__comment-count">
+                <% if @post.comments.count == 1 || @post.comments.count == 0 %>
+                    <%= @post.comments.count %>&nbsp;comment
+                <% else %>
+                    <%= @post.comments.count %>&nbsp;comments
+                <% end %>
+            </p>
+        <% else %>
+            <p class="comment-area__header__comment-count">
+                <% if @post.comments.count == 1 || @post.comments.count == 0 %>
+                    コメント数：<%= @post.comments.count %>
+                <% else %>
+                    コメント数：<%= @post.comments.count %>
+                <% end %>
+            </p>
+        <% end %>
     </header>
     <% if user_signed_in? && @comments.present? %>
-        <p class="comment-area__notes"><i class="fas fa-exclamation-triangle"></i>&nbsp;Inappropriate comments may be deleted.&nbsp;Please be careful.</p>
+        <% if current_user.language == "EN" %>
+            <p class="comment-area__notes"><i class="fas fa-exclamation-triangle"></i>&nbsp;Inappropriate comments may be deleted.&nbsp;Please be careful.</p>
+        <% else %>
+            <p class="comment-area__notes"><i class="fas fa-exclamation-triangle"></i>&nbsp;不適切なコメントは削除される場合があります。ご注意ください。</p>
+        <% end %>
         <% @comments.each do |comment| %>
             <div class="comment-area__comment-wrap">
                 <div class="comment-are__comment-wrap__rowItem">
@@ -27,7 +45,11 @@
                     <div class="comment-area__comment-wrap__sideItem">
                         <time class="comment-area__comment-wrap__timestamp" datetime="<%= comment.created_at.strftime('%FT%R%z') %>"><i class="far fa-clock"></i>&nbsp;<%= comment.created_at.strftime('%F %T') %></time>
                         <%= button_tag(type: "button", class: "comment-area__comment-wrap__report-btn") do %>
-                            <a href="mailto:jowan-jp@gmail.com?subject=Inappropriate comment#<%= comment.id %>&body=Please enter the content."><i class="fas fa-exclamation-circle"></i>&nbsp;Report</a>
+                            <% if (user_signed_in? && current_user.language == "EN") || (!(user_signed_in?)) %>
+                                <a href="mailto:jowan-jp@gmail.com?subject=Inappropriate comment#<%= comment.id %>&body=Please enter the content."><i class="fas fa-exclamation-circle"></i>&nbsp;Report</a>
+                            <% else %>
+                                <a href="mailto:jowan-jp@gmail.com?subject=Inappropriate comment#<%= comment.id %>&body=Please enter the content."><i class="fas fa-exclamation-circle"></i>&nbsp;不適切な報告</a>
+                            <% end %>
                         <% end %>
                     </div>
                 </div>
@@ -35,14 +57,24 @@
                     <%= simple_format comment.text %>
                 </div>
                 <% if current_user.id == comment.user.id %>
-                    <%= link_to post_comment_path(comment.post_id, comment.id), method: :delete, data: {confirm: "Do you delete? It cannot be restored."}, class: "comment-area__comment-wrap__delete-btn" do %>
-                        <i class="far fa-trash-alt"></i>
+                    <% if current_user.language == "EN" %>
+                        <%= link_to post_comment_path(comment.post_id, comment.id), method: :delete, data: {confirm: "Do you delete? It cannot be restored."}, class: "comment-area__comment-wrap__delete-btn" do %>
+                            <i class="far fa-trash-alt"></i>
+                        <% end %>
+                    <% else %>
+                        <%= link_to post_comment_path(comment.post_id, comment.id), method: :delete, data: {confirm: "削除しますか？一度削除すると復元できません。"}, class: "comment-area__comment-wrap__delete-btn" do %>
+                            <i class="far fa-trash-alt"></i>
+                        <% end %>
                     <% end %>
                 <% end %>
             </div>
         <% end %>
     <% elsif user_signed_in? %>
-        <p class="comment-area__notes"><i class="fas fa-exclamation-triangle"></i>&nbsp;Inappropriate comments may be deleted.&nbsp;Please be careful.</p>
+        <% if current_user.language == "EN" %>
+            <p class="comment-area__notes"><i class="fas fa-exclamation-triangle"></i>&nbsp;Inappropriate comments may be deleted.&nbsp;Please be careful.</p>
+        <% else %>
+            <p class="comment-area__notes"><i class="fas fa-exclamation-triangle"></i>&nbsp;不適切なコメントは削除される場合があります。ご注意ください。</p>
+        <% end %>
     <% else %>
         <%= image_tag "comment-form.png", class: "comment-area__comment-wrap__bg", onmousedown: "return false;", oncontextmenu: "return false;", onselectstart: "return false;" %>
         <p class="comment-area__comment-wrap__user-signed-in">
@@ -61,24 +93,47 @@
         <% end %>
         
         <%= form_tag("/posts/#{@post.id}/comments", method: :post) do %>
-            <%= label_tag :text, "Send your comment", class: "comment-area__commentForm__label" %>
-            
-            <% if user_signed_in? && !(@post.comments.exists?(user_id: current_user.id)) %>
-                <%= text_area_tag :text, '', placeholder: "Add your comment", class: "comment-area__commentForm__textarea" %>
-                <%= button_tag(type: "submit", class: "comment-area__commentForm__submit-btn") do %>
-                    Send
+            <% if (user_signed_in? && current_user.language == "EN") %>
+                <%= label_tag :text, "Send your comment", class: "comment-area__commentForm__label" %>
+                
+                <% if user_signed_in? && !(@post.comments.exists?(user_id: current_user.id)) %>
+                    <%= text_area_tag :text, '', placeholder: "Add your comment", class: "comment-area__commentForm__textarea" %>
+                    <%= button_tag(type: "submit", class: "comment-area__commentForm__submit-btn") do %>
+                        Send
+                    <% end %>
+                <% elsif user_signed_in? && @post.comments.exists?(user_id: current_user.id) %>
+                    <p class="comment-area__commentForm__block">
+                        <i class="fas fa-exclamation-triangle"></i>&nbsp;You have already commented on this article.&nbsp;You can create it again if you delete it.
+                    </p>
+                <% else %>
+                    <p class="comment-area__commentForm__guest">
+                        Need to signin to post your comment.<br>
+                        Click here -> <%= link_to new_user_session_path, method: :get do %><i class="fas fa-sign-in-alt"></i>&nbsp;SignIn<% end %>
+                    </p>
                 <% end %>
-            <% elsif user_signed_in? && @post.comments.exists?(user_id: current_user.id) %>
-                <p class="comment-area__commentForm__block">
-                    <i class="fas fa-exclamation-triangle"></i>&nbsp;You have already commented on this article.&nbsp;You can create it again if you delete it.
-                </p>
             <% else %>
-                <p class="comment-area__commentForm__guest">
-                    Need to signin to post your comment.<br>
-                    Click here -> <%= link_to new_user_session_path, method: :get do %><i class="fas fa-sign-in-alt"></i>&nbsp;SignIn<% end %>
-                </p>
+                <%= label_tag :text, "コメントを送信する", class: "comment-area__commentForm__label" %>
+                
+                <% if user_signed_in? && !(@post.comments.exists?(user_id: current_user.id)) %>
+                    <%= text_area_tag :text, '', placeholder: "コメントを入力", class: "comment-area__commentForm__textarea" %>
+                    <%= button_tag(type: "submit", class: "comment-area__commentForm__submit-btn") do %>
+                        送信
+                    <% end %>
+                <% elsif user_signed_in? && @post.comments.exists?(user_id: current_user.id) %>
+                    <p class="comment-area__commentForm__block">
+                        <i class="fas fa-exclamation-triangle"></i>既にコメントを送信しています。削除すると再度コメントを送信できます。
+                    </p>
+                <% else %>
+                    <p class="comment-area__commentForm__guest">
+                        コメントを閲覧又は送信するにはログインしてください。<br>
+                        こちらをクリック -> <%= link_to new_user_session_path, method: :get do %><i class="fas fa-sign-in-alt"></i>&nbsp;ログイン<% end %>
+                    </p>
+                <% end %>
             <% end %>
             
         <% end %>
+    </div>
+    <div class="related-articles__back-btn">
+        <%= link_to '<< Back to articles page', posts_path, method: :get %>
     </div>
 </div>

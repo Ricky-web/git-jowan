@@ -30,7 +30,11 @@
     </header>
     <%= @post.content %>
     <div class="article__author-info">
-        <label class="article__author-info__label">Author</label>
+        <% if (user_signed_in? && current_user.language == "EN") || (!(user_signed_in?)) %>
+            <label class="article__author-info__label">Author</label>
+        <% else %>
+            <label class="article__author-info__label">著者</label>
+        <% end %>
         <div class="article__author-info--flexContainer">
             <div class="article__author-info__leftItem">
                 <% if @post.user.image.attached? %>

@@ -32,6 +32,11 @@
         <label for="user_bio"><span><i class="far fa-address-card"></i>&nbsp;Bio</span></label>
           <%= f.text_area :bio, class: "editUserProfile__bio", placeholder: "Add your bio" %>
       </div>
+      
+      <div class="field">
+        <label for="user_language"><span><i class="fas fa-language"></i>&nbsp;Language</span></label>
+        <%= f.select :language, ["EN", "JP"], {}, class: "editUserProfile__language" %>
+      </div>
     
       <div class="field">
         <label for="user_email">

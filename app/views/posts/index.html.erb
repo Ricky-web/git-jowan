@@ -2,31 +2,59 @@
     <title>Jowan - Articles</title>
 </head>
 <body>
-    <div id="articles" class="big--bg">
-        <div class="big--bg__mask">
-            <header class="big__pageHeader">
-                <h1><a href="/"><%= image_tag 'logo.png', alt: "Jowan", class: "big__pageHeader__imgLogo" %></a></h1>
-                <nav>
-                    <p class="alert"><%= alert %></p>
-                    <% if user_signed_in? %>
-                        <ul class="big__pageHeader__mainNav">
-                            <li><a href="/posts/new" data-method="get"><i class="far fa-plus-square"></i>&nbsp;POST</a></li>
-                            <li><%= link_to user_path(current_user.id), method: :get do %><i class="fas fa-user"></i>&nbsp;Mypage<% end %></li>
-                            <li><a href="/users/sign_out" data-method="delete"><i class="fas fa-sign-out-alt"></i>&nbsp;LogOut</a></li>
-                        </ul>
-                    <% else %>
-                        <ul class="big__pageHeader__mainNav">
-                            <li><%= link_to new_user_session_path, method: :get do %><i class="fas fa-sign-in-alt"></i>&nbsp;SignIn<% end %></li>
-                            <li><%= link_to new_user_registration_path, method: :get do %><i class="fas fa-user-plus"></i>&nbsp;SignUp<% end %></li>
-                        </ul>
-                    <% end %>
-                </nav>
-            </header>
-            <div class="big__pageContent wrapper">
-                <h2 class="big__pageContent__pageTitle"><a href="/posts">Articles</a></h2>
+    <% if (user_signed_in? && current_user.language == "EN") || (!(user_signed_in?)) %>
+        <div id="articles" class="big--bg">
+            <div class="big--bg__mask">
+                <header class="big__pageHeader">
+                    <h1><a href="/"><%= image_tag 'logo.png', alt: "Jowan", class: "big__pageHeader__imgLogo" %></a></h1>
+                    <nav>
+                        <p class="alert"><%= alert %></p>
+                        <% if user_signed_in? %>
+                            <ul class="big__pageHeader__mainNav">
+                                <li><a href="/posts/new" data-method="get"><i class="far fa-plus-square"></i>&nbsp;POST</a></li>
+                                <li><%= link_to user_path(current_user.id), method: :get do %><i class="fas fa-user"></i>&nbsp;Mypage<% end %></li>
+                                <li><a href="/users/sign_out" data-method="delete"><i class="fas fa-sign-out-alt"></i>&nbsp;LogOut</a></li>
+                            </ul>
+                        <% else %>
+                            <ul class="big__pageHeader__mainNav">
+                                <li><%= link_to new_user_session_path, method: :get do %><i class="fas fa-sign-in-alt"></i>&nbsp;SignIn<% end %></li>
+                                <li><%= link_to new_user_registration_path, method: :get do %><i class="fas fa-user-plus"></i>&nbsp;SignUp<% end %></li>
+                            </ul>
+                        <% end %>
+                    </nav>
+                </header>
+                <div class="big__pageContent wrapper">
+                    <h2 class="big__pageContent__pageTitle"><a href="/posts">Articles</a></h2>
+                </div>
             </div>
         </div>
-    </div>
+    <% else %>
+        <div id="articles" class="big--bg">
+            <div class="big--bg__mask">
+                <header class="big__pageHeader">
+                    <h1><a href="/"><%= image_tag 'logo.png', alt: "Jowan", class: "big__pageHeader__imgLogo" %></a></h1>
+                    <nav>
+                        <p class="alert"><%= alert %></p>
+                        <% if user_signed_in? %>
+                            <ul class="big__pageHeader__mainNav">
+                                <li><a href="/posts/new" data-method="get"><i class="far fa-plus-square"></i>&nbsp;新規投稿</a></li>
+                                <li><%= link_to user_path(current_user.id), method: :get do %><i class="fas fa-user"></i>&nbsp;マイページ<% end %></li>
+                                <li><a href="/users/sign_out" data-method="delete"><i class="fas fa-sign-out-alt"></i>&nbsp;ログアウト</a></li>
+                            </ul>
+                        <% else %>
+                            <ul class="big__pageHeader__mainNav">
+                                <li><%= link_to new_user_session_path, method: :get do %><i class="fas fa-sign-in-alt"></i>&nbsp;ログイン<% end %></li>
+                                <li><%= link_to new_user_registration_path, method: :get do %><i class="fas fa-user-plus"></i>&nbsp;新規登録<% end %></li>
+                            </ul>
+                        <% end %>
+                    </nav>
+                </header>
+                <div class="big__pageContent wrapper">
+                    <h2 class="big__pageContent__pageTitle"><a href="/posts">記事一覧</a></h2>
+                </div>
+            </div>
+        </div>
+    <% end %>
     <div class="articles-contents wrapper">
         <%= render partial: 'commons/articles-contents__main', object: @posts %>
         <%= render partial: 'commons/articles-contents__aside', object: @ranks %>

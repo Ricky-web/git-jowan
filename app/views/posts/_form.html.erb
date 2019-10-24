@@ -1,45 +1,94 @@
-<%= form_with(model: post, local: true, class: "editor-form") do |form| %>
-  <% if post.errors.any? %>
-    <div id="error_explanation">
-      <h2><i class="fas fa-exclamation-triangle"></i>&nbsp;<%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
-
-      <ul>
-        <% post.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+<% if current_user.language == "EN" || !(user_signed_in?) %>
+  <%= form_with(model: post, local: true, class: "editor-form") do |form| %>
+    <% if post.errors.any? %>
+      <div id="error_explanation">
+        <h2><i class="fas fa-exclamation-triangle"></i>&nbsp;<%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+  
+        <ul>
+          <% post.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  
+    <div class="field">
+      <label for="post_title">
+        <i class="fas fa-heading"></i>&nbsp;Heading / Title<br>
+        <em><i class="fas fa-exclamation-circle"></i>&nbsp;Required items</em>
+      </label>
+      <%= form.text_field :title, class: "post-title", placeholder: "Add title", autofocus: true %>
+    </div>
+    
+    <div class="field">
+      <label for="post_currency_pair" class="caret-down">
+        <i class="fas fa-exchange-alt"></i>&nbsp;Currency Pair<br>
+        <em><i class="fas fa-exclamation-circle"></i>&nbsp;Required items</em>
+      </label>
+      <%= form.select :currency_pair, ["USDJPY", "GBPJPY", "EURJPY", "AUDJPY", "NZDJPY", "CADJPY", "CHFJPY", "HKDJPY", "ZARJPY", "GBPUSD", "EURUSD", "AUDUSD", "NZDUSD"], :prompt => "Select Currency Pair" %>
+      <p class="supplementary_explanation">If you can't find a currency pair, please request here -> <a href="mailto:jowan-jp@gmail.com?subject=Request for currency pair"><i class="far fa-envelope"></i>&nbsp;jowan-jp@gmail.com</a></p>
+    </div>
+    
+    <div class="field">
+      <label for="post_content"><i class="fas fa-feather-alt"></i>&nbsp;Content</label>
+      <%= form.rich_text_area :content, placeholder: "Add content" %>
+    </div>
+    
+    <div class="actions sLine">
+      <%= button_tag(type: "submit", data: {confirm: "When creating an article, please be careful about copyright, portrait rights, publicity rights, etc."}) do %>
+       <i class="far fa-paper-plane"></i>&nbsp;Send
+      <% end %>
+    </div>
+    
+    <div class="back-btn">
+      <%= link_to '<<Back', :back %>
     </div>
   <% end %>
-
-  <div class="field">
-    <label for="post_title">
-      <i class="fas fa-heading"></i>&nbsp;Heading / Title<br>
-      <em><i class="fas fa-exclamation-circle"></i>&nbsp;Required items</em>
-    </label>
-    <%= form.text_field :title, class: "post-title", placeholder: "Add title", autofocus: true %>
-  </div>
+<% else %>
+  <%= form_with(model: post, local: true, class: "editor-form") do |form| %>
+    <% if post.errors.any? %>
+      <div id="error_explanation">
+        <h2><i class="fas fa-exclamation-triangle"></i>&nbsp;<%= pluralize(post.errors.count, "error") %> 投稿が取り消されました:</h2>
   
-  <div class="field">
-    <label for="post_currency_pair" class="caret-down">
-      <i class="fas fa-exchange-alt"></i>&nbsp;Currency Pair<br>
-      <em><i class="fas fa-exclamation-circle"></i>&nbsp;Required items</em>
-    </label>
-    <%= form.select :currency_pair, ["USDJPY", "GBPJPY", "EURJPY", "AUDJPY", "NZDJPY", "CADJPY", "CHFJPY", "HKDJPY", "ZARJPY", "GBPUSD", "EURUSD", "AUDUSD", "NZDUSD"], :prompt => "Select Currency Pair" %>
-    <p class="supplementary_explanation">If you can't find a currency pair, please request here -> <a href="mailto:jowan-jp@gmail.com?subject=Request for currency pair"><i class="far fa-envelope"></i>&nbsp;jowan-jp@gmail.com</a></p>
-  </div>
-  
-  <div class="field">
-    <label for="post_content"><i class="fas fa-feather-alt"></i>&nbsp;Content</label>
-    <%= form.rich_text_area :content, placeholder: "Add content" %>
-  </div>
-  
-  <div class="actions sLine">
-    <%= button_tag(type: "submit", data: {confirm: "When creating an article, please be careful about copyright, portrait rights, publicity rights, etc. 記事作成の際は著作権や肖像権、パブリシティ権等には十分にご注意ください。"}) do %>
-     <i class="far fa-paper-plane"></i>&nbsp;Send
+        <ul>
+          <% post.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
     <% end %>
-  </div>
   
-  <div class="back-btn">
-    <%= link_to '<<Back', :back %>
-  </div>
+    <div class="field">
+      <label for="post_title">
+        <i class="fas fa-heading"></i>&nbsp;記事タイトル<br>
+        <em><i class="fas fa-exclamation-circle"></i>&nbsp;必須</em>
+      </label>
+      <%= form.text_field :title, class: "post-title", placeholder: "記事のタイトルを入力", autofocus: true %>
+    </div>
+    
+    <div class="field">
+      <label for="post_currency_pair" class="caret-down">
+        <i class="fas fa-exchange-alt"></i>&nbsp;通貨ペア<br>
+        <em><i class="fas fa-exclamation-circle"></i>&nbsp;必須</em>
+      </label>
+      <%= form.select :currency_pair, ["USDJPY", "GBPJPY", "EURJPY", "AUDJPY", "NZDJPY", "CADJPY", "CHFJPY", "HKDJPY", "ZARJPY", "GBPUSD", "EURUSD", "AUDUSD", "NZDUSD"], :prompt => "通貨ペアを選択" %>
+      <p class="supplementary_explanation">ご希望の通貨ペアがない場合はこちらへリクエストしてください。 -> <a href="mailto:jowan-jp@gmail.com?subject=Request for currency pair"><i class="far fa-envelope"></i>&nbsp;jowan-jp@gmail.com</a></p>
+    </div>
+    
+    <div class="field">
+      <label for="post_content"><i class="fas fa-feather-alt"></i>&nbsp;記事内容</label>
+      <%= form.rich_text_area :content, placeholder: "記事内容を作成" %>
+    </div>
+    
+    <div class="actions sLine">
+      <%= button_tag(type: "submit", data: {confirm: "記事作成の際は著作権や肖像権、パブリシティ権等には十分にご注意ください。"}) do %>
+       <i class="far fa-paper-plane"></i>&nbsp;送信
+      <% end %>
+    </div>
+    
+    <div class="back-btn">
+      <%= link_to '<<前に戻る', :back %>
+    </div>
+  <% end %>
 <% end %>
+  

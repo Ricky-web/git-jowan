@@ -5,7 +5,7 @@
     <%= render partial: 'commons/page-top', object: @post %>
     <%= render partial: 'commons/article', object: @post, object: @ten_minutes_ago %>
     <%= render partial: 'commons/jowan-ad' %>
-    <%= render partial: 'commons/comment-area', object: @post %>
     <%= render partial: 'commons/related-articles', object: [@related_articles, @post] %>
+    <%= render partial: 'commons/comment-area', object: @post %>
     <%= render partial: 'commons/footer' %>
 </body>

@@ -1213,6 +1213,7 @@ div.comment-f {
         .editUserProfile {
             &__nickname,
             &__bio,
+            &__language,
             &__email,
             &__pw,
             &__pwConfirmation,
@@ -1236,6 +1237,10 @@ div.comment-f {
                 line-height: 1.2;
                 height: calc(1.2em * 10);
                 resize: none;
+            }
+            
+            &__language {
+                width: 100%;
             }
         }
 

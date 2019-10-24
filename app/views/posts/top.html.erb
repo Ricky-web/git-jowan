@@ -1,64 +1,128 @@
 <head>
     <title>Jowan</title>
 </head>
-<body>
-    <div id="home" class="big--bg">
-    
-        <header class="big__pageHeader wrapper">
-            <h1><a href="#"><%= image_tag 'logo.png', alt: "Jowan", class: "big__pageHeader__imgLogo" %></a></h1>
-            <nav>
-                <p class="alert"><%= alert %></p>
-                <% if user_signed_in? %>
-                    <ul class="big__pageHeader__mainNav">
-                        <li><%= link_to destroy_user_session_path, method: :delete do %><i class="fas fa-sign-out-alt"></i>&nbsp;LogOut<% end %></li>
-                    </ul>
-                <% else %>
-                    <ul class="big__pageHeader__mainNav">
-                        <li><a href="users/sign_in"><i class="fas fa-sign-in-alt"></i>&nbsp;SignIn</a></li>
-                        <li><a href="users/sign_up"><i class="fas fa-user-plus"></i>&nbsp;SginUp</a></li>
-                    </ul>
-                <% end %>
-            </nav>
-        </header>
+<% if (user_signed_in? && current_user.language == "EN") || (!(user_signed_in?)) %>
+    <body>
+        <div id="home" class="big--bg">
         
-        <div class="big__homeContent wrapper">
-            <h2 class="big__homeContent__pageTitle">Welcome to Jowan!</h2>
-            <p class="big__homeContent__ov">
-                Jowan is specialized sharing platform for FX. Share your valuable information!
-            </p>
-            <div class="big__homeContent__sLine sLine"></div>
-            <%= link_to posts_path, method: :get, class: "big_homeContent_btn" do %>View articles&nbsp;<i class="fas fa-caret-right"></i><% end %>
-        </div>
-    
-    </div>
-    
-    <section class="dailyRanks">
-        <h3 class="dailyRanks__title"><i class="fas fa-chart-line"></i>&nbsp;Daily Ranks: <%= Date.today.strftime("%d %B, %Y") %></h3>
-        <time class="dailyRanks__updatedDateTime" datetime="<%= Time.current.strftime("%FT%T%z") %>"><i class="fas fa-history"></i>&nbsp;<%= DateTime.current.strftime("%a, %d %b %Y %X %Z") %></time>
-        <% if @ranks.present? %>
-            <% @ranks.each.with_index(1) do |post, i| %>
-                <div class="dailyRanks__articles sLine">
-                    <div class="dailyRanks__rankNo rankNo">
-                        <span class="number number-<%= i %>"><%= i %></span>
-                    </div>
-                    <% if post.user.image.attached? %>
-                        <%= image_tag post.user.image, class: "img-author", alt: "Author:#{post.user.nickname}" %>
+            <header class="big__pageHeader wrapper">
+                <h1><a href="#"><%= image_tag 'logo.png', alt: "Jowan", class: "big__pageHeader__imgLogo" %></a></h1>
+                <nav>
+                    <p class="alert"><%= alert %></p>
+                    <% if user_signed_in? %>
+                        <ul class="big__pageHeader__mainNav">
+                            <li><%= link_to destroy_user_session_path, method: :delete do %><i class="fas fa-sign-out-alt"></i>&nbsp;LogOut<% end %></li>
+                        </ul>
                     <% else %>
-                        <%= image_tag "default.png", class: "img-author", alt: "Author:#{post.user.nickname}" %>
+                        <ul class="big__pageHeader__mainNav">
+                            <li><a href="users/sign_in"><i class="fas fa-sign-in-alt"></i>&nbsp;SignIn</a></li>
+                            <li><a href="users/sign_up"><i class="fas fa-user-plus"></i>&nbsp;SginUp</a></li>
+                        </ul>
                     <% end %>
-                    <div class="post-title">
-                        <%= link_to "#{post.title}", post_path(post), method: :get %>
-                        <div class="tr-Item">
-                            <time datetime="<%= post.created_at.strftime("%FT%T%z") %>"><i class="far fa-clock">&nbsp;<%= post.created_at.strftime("%F %T") %></i></time>
-                            <span class="like-count"><i class="far fa-thumbs-up">&nbsp;<%= post.likes.count %></i></span>
+                </nav>
+            </header>
+            
+            <div class="big__homeContent wrapper">
+                <h2 class="big__homeContent__pageTitle">Welcome to Jowan!</h2>
+                <p class="big__homeContent__ov">
+                    Jowan is specialized sharing platform for FX. Share your valuable information!
+                </p>
+                <div class="big__homeContent__sLine sLine"></div>
+                <%= link_to posts_path, method: :get, class: "big_homeContent_btn" do %>View articles&nbsp;<i class="fas fa-caret-right"></i><% end %>
+            </div>
+        
+        </div>
+        
+        <section class="dailyRanks">
+            <h3 class="dailyRanks__title"><i class="fas fa-chart-line"></i>&nbsp;Daily Ranks: <%= Date.today.strftime("%d %B, %Y") %></h3>
+            <time class="dailyRanks__updatedDateTime" datetime="<%= Time.current.strftime("%FT%T%z") %>"><i class="fas fa-history"></i>&nbsp;<%= DateTime.current.strftime("%a, %d %b %Y %X %Z") %></time>
+            <% if @ranks.present? %>
+                <% @ranks.each.with_index(1) do |post, i| %>
+                    <div class="dailyRanks__articles sLine">
+                        <div class="dailyRanks__rankNo rankNo">
+                            <span class="number number-<%= i %>"><%= i %></span>
+                        </div>
+                        <% if post.user.image.attached? %>
+                            <%= image_tag post.user.image, class: "img-author", alt: "Author:#{post.user.nickname}" %>
+                        <% else %>
+                            <%= image_tag "default.png", class: "img-author", alt: "Author:#{post.user.nickname}" %>
+                        <% end %>
+                        <div class="post-title">
+                            <%= link_to "#{post.title}", post_path(post), method: :get %>
+                            <div class="tr-Item">
+                                <time datetime="<%= post.created_at.strftime("%FT%T%z") %>"><i class="far fa-clock">&nbsp;<%= post.created_at.strftime("%F %T") %></i></time>
+                                <span class="like-count"><i class="far fa-thumbs-up">&nbsp;<%= post.likes.count %></i></span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                <% end %>
+            <% else %>
+                <div class="no-ranks separator">Not update yet.</div>
             <% end %>
-        <% else %>
-            <div class="no-ranks separator">Not update yet.</div>
-        <% end %>
-    </section>
-    
-    <%= render 'commons/footer' %>
-</body>
+        </section>
+        
+        <%= render 'commons/footer' %>
+    </body>
+<% else %>
+    <body>
+        <div id="home" class="big--bg">
+        
+            <header class="big__pageHeader wrapper">
+                <h1><a href="#"><%= image_tag 'logo.png', alt: "Jowan", class: "big__pageHeader__imgLogo" %></a></h1>
+                <nav>
+                    <p class="alert"><%= alert %></p>
+                    <% if user_signed_in? %>
+                        <ul class="big__pageHeader__mainNav">
+                            <li><%= link_to destroy_user_session_path, method: :delete do %><i class="fas fa-sign-out-alt"></i>&nbsp;ログアウト<% end %></li>
+                        </ul>
+                    <% else %>
+                        <ul class="big__pageHeader__mainNav">
+                            <li><a href="users/sign_in"><i class="fas fa-sign-in-alt"></i>&nbsp;ログイン</a></li>
+                            <li><a href="users/sign_up"><i class="fas fa-user-plus"></i>&nbsp;新規登録</a></li>
+                        </ul>
+                    <% end %>
+                </nav>
+            </header>
+            
+            <div class="big__homeContent wrapper">
+                <h2 class="big__homeContent__pageTitle">ようこそ、Jowanへ！</h2>
+                <p class="big__homeContent__ov">
+                    当ページはFXに特化したグローバルな情報共有のプラットフォームです。どなたでも情報を共有できます！
+                </p>
+                <div class="big__homeContent__sLine sLine"></div>
+                <%= link_to posts_path, method: :get, class: "big_homeContent_btn" do %>記事一覧を見る&nbsp;<i class="fas fa-caret-right"></i><% end %>
+            </div>
+        
+        </div>
+        
+        <section class="dailyRanks">
+            <h3 class="dailyRanks__title"><i class="fas fa-chart-line"></i>&nbsp;記事ランキング: <%= Date.today.strftime("%d %B, %Y") %></h3>
+            <time class="dailyRanks__updatedDateTime" datetime="<%= Time.current.strftime("%FT%T%z") %>"><i class="fas fa-history"></i>&nbsp;<%= DateTime.current.strftime("%a, %d %b %Y %X %Z") %></time>
+            <% if @ranks.present? %>
+                <% @ranks.each.with_index(1) do |post, i| %>
+                    <div class="dailyRanks__articles sLine">
+                        <div class="dailyRanks__rankNo rankNo">
+                            <span class="number number-<%= i %>"><%= i %></span>
+                        </div>
+                        <% if post.user.image.attached? %>
+                            <%= image_tag post.user.image, class: "img-author", alt: "Author:#{post.user.nickname}" %>
+                        <% else %>
+                            <%= image_tag "default.png", class: "img-author", alt: "Author:#{post.user.nickname}" %>
+                        <% end %>
+                        <div class="post-title">
+                            <%= link_to "#{post.title}", post_path(post), method: :get %>
+                            <div class="tr-Item">
+                                <time datetime="<%= post.created_at.strftime("%FT%T%z") %>"><i class="far fa-clock">&nbsp;<%= post.created_at.strftime("%F %T") %></i></time>
+                                <span class="like-count"><i class="far fa-thumbs-up">&nbsp;<%= post.likes.count %></i></span>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
+            <% else %>
+                <div class="no-ranks separator">まだ更新されていません。</div>
+            <% end %>
+        </section>
+        
+        <%= render 'commons/footer' %>
+    </body>
+<% end %>
